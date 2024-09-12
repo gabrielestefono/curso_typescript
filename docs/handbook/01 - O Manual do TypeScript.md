@@ -1,5 +1,3 @@
-Claro! Aqui está a tradução do texto:
-
 # O Manual do TypeScript
 
 ## Sobre este Manual

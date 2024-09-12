@@ -4,7 +4,7 @@ Bem-vindo à primeira página do manual. Se esta é a sua primeira experiência 
 
 Cada valor em JavaScript tem um conjunto de comportamentos que você pode observar ao executar diferentes operações. Isso pode parecer abstrato, mas, como um exemplo rápido, considere algumas operações que podemos realizar em uma variável chamada `message`.
 
-```typescript
+```javascript
 // Acessando a propriedade 'toLowerCase'
 // em 'message' e, em seguida, chamando-a
 message.toLowerCase();
@@ -25,7 +25,7 @@ As respostas a essas perguntas são geralmente coisas que mantemos em mente ao e
 
 Vamos supor que `message` foi definido da seguinte maneira.
 
-```typescript
+```javascript
 const message = "Hello World!";
 ```
 
@@ -43,7 +43,7 @@ Quando executamos nosso código, a forma como o tempo de execução do JavaScrip
 
 Para alguns valores, como os primitivos `string` e `number`, podemos identificar seu tipo em tempo de execução usando o operador `typeof`. Mas para outras coisas, como funções, não há um mecanismo correspondente em tempo de execução para identificar seus tipos. Por exemplo, considere esta função:
 
-```typescript
+```javascript
 function fn(x) {
   return x.flip();
 }
