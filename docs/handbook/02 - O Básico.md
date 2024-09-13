@@ -79,7 +79,7 @@ Até agora, estivemos discutindo certos aspectos como erros de tempo de execuç�
 
 Por exemplo, a especificação diz que tentar chamar algo que não é chamável deve lançar um erro. Talvez isso soe como um "comportamento óbvio", mas você poderia imaginar que acessar uma propriedade que não existe em um objeto também deveria lançar um erro. Em vez disso, o JavaScript nos dá um comportamento diferente e retorna o valor `undefined`:
 
-```typescript
+```javascript
 const user = {
   name: "Daniel",
   age: 26,
@@ -202,6 +202,8 @@ Esperado 2 argumentos, mas obtido 1.
 ```
 
 O TypeScript está nos dizendo que esquecemos de passar um argumento para a função `greet`, e com razão. Até agora, só escrevemos JavaScript padrão, e ainda assim a verificação de tipos conseguiu encontrar problemas com nosso código. Obrigado, TypeScript!
+
+#### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### 
 
 ## Emitindo com Erros
 
