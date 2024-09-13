@@ -1,38 +1,38 @@
-# Everyday Types
+# Tipos do Dia-a-Dia
 
-In this chapter, we’ll cover some of the most common types of values you’ll find in JavaScript code, and explain the corresponding ways to describe those types in TypeScript. This isn’t an exhaustive list, and future chapters will describe more ways to name and use other types.
+Neste capítulo, abordaremos alguns dos tipos de valores mais comuns que você encontrará no código JavaScript e explicaremos as formas correspondentes de descrever esses tipos em TypeScript. Esta não é uma lista exaustiva, e capítulos futuros descreverão mais formas de nomear e usar outros tipos.
 
-Types can also appear in many more places than just type annotations. As we learn about the types themselves, we’ll also learn about the places where we can refer to these types to form new constructs.
+Os tipos também podem aparecer em muitos mais *lugares* do que apenas nas anotações de tipo. À medida que aprendemos sobre os tipos em si, também aprenderemos sobre os lugares onde podemos referenciar esses tipos para formar novos construtos.
 
-We’ll start by reviewing the most basic and common types you might encounter when writing JavaScript or TypeScript code. These will later form the core building blocks of more complex types.
+Começaremos revisando os tipos mais básicos e comuns que você pode encontrar ao escrever código JavaScript ou TypeScript. Estes formarão mais tarde os blocos de construção fundamentais para tipos mais complexos.
 
-## The primitives: `string`, `number`, and `boolean`
+## Os primitivos: `string`, `number` e `boolean`
 
-JavaScript has three very commonly used [primitives](https://developer.mozilla.org/en-US/docs/Glossary/Primitive): `string`, `number`, and `boolean`. Each has a corresponding type in TypeScript. As you might expect, these are the same names you’d see if you used the JavaScript typeof operator on a value of those types:
+JavaScript tem três [primitivos](https://developer.mozilla.org/en-US/docs/Glossary/Primitive) muito comuns: `string`, `number` e `boolean`. Cada um tem um tipo correspondente em TypeScript. Como você pode esperar, esses são os mesmos nomes que você veria se usasse o operador typeof do JavaScript em um valor desses tipos:
 
-- `string` represents string values like `"Hello, world"`
-- `number` is for numbers like `42`. JavaScript does not have a special runtime value for integers, so there’s no equivalent to `int` or `float` - everything is simply `number`
-- `boolean` is for the two values `true` and `false`
+- `string` representa valores de string como `"Hello, world"`
+- `number` é para números como `42`. O JavaScript não tem um valor de tempo de execução especial para inteiros, então não há equivalente a `int` ou `float` - tudo é simplesmente `number`
+- `boolean` é para os dois valores `true` e `false`
 
-> The type names String, Number, and Boolean (starting with capital letters) are legal, but refer to some special built-in types that will very rarely appear in your code. Always use string, number, or boolean for types.
+> Os nomes de tipo String, Number e Boolean (com letras maiúsculas) são legais, mas se referem a alguns tipos internos especiais que raramente aparecerão no seu código. *Sempre* use string, number ou boolean para tipos.
 
 ## Arrays
 
-To specify the type of an array like `[1, 2, 3]`, you can use the syntax `number[]`; this syntax works for any type (e.g. `string[]` is an array of strings, and so on). You may also see this written as `Array<number>`, which means the same thing. We’ll learn more about the syntax `T<U>` when we cover generics.
+Para especificar o tipo de um array como `[1, 2, 3]`, você pode usar a sintaxe `number[]`; essa sintaxe funciona para qualquer tipo (por exemplo, `string[]` é um array de strings, e assim por diante). Você também pode ver isso escrito como `Array<number>`, que significa a mesma coisa. Aprenderemos mais sobre a sintaxe `T<U>` quando cobrirmos *generics*.
 
-> Note that [number] is a different thing; refer to the section on [Tuples](https://www.typescriptlang.org/docs/handbook/2/objects.html#tuple-types).
+> Note que [number] é uma coisa diferente; consulte a seção sobre [Tuples](https://www.typescriptlang.org/docs/handbook/2/objects.html#tuple-types).
 
 ## `any`
 
-TypeScript also has a special type, `any`, that you can use whenever you don’t want a particular value to cause typechecking errors.
+TypeScript também tem um tipo especial, `any`, que você pode usar sempre que não quiser que um valor específico cause erros de verificação de tipo.
 
-When a value is of type any, you can access any properties of it (which will in turn be of type `any`), call it like a function, assign it to (or from) a value of any type, or pretty much anything else that’s syntactically legal:
+Quando um valor é do tipo any, você pode acessar quaisquer propriedades dele (que serão, por sua vez, do tipo `any`), chamá-lo como uma função, atribuí-lo a (ou a partir de) um valor de qualquer tipo, ou praticamente qualquer outra coisa que seja sintaticamente legal:
 
 ```ts
 let obj: any = { x: 0 };
-// None of the following lines of code will throw compiler errors.
-// Using `any` disables all further type checking, and it is assumed
-// you know the environment better than TypeScript.
+// Nenhuma das linhas de código a seguir gerará erros de compilação.
+// Usar `any` desativa toda a verificação de tipo subsequente, e assume-se
+// que você conhece o ambiente melhor do que o TypeScript.
 obj.foo();
 obj();
 obj.bar = 100;
@@ -40,61 +40,61 @@ obj = "hello";
 const n: number = obj;
 ```
 
-The `any` type is useful when you don’t want to write out a long type just to convince TypeScript that a particular line of code is okay.
+O tipo `any` é útil quando você não quer escrever um tipo longo apenas para convencer o TypeScript de que uma linha específica de código está ok.
 
 ### `noImplicitAny`
 
-When you don’t specify a type, and TypeScript can’t infer it from context, the compiler will typically default to `any`.
+Quando você não especifica um tipo, e o TypeScript não consegue inferi-lo a partir do contexto, o compilador geralmente assume `any` como padrão.
 
-You usually want to avoid this, though, because `any` isn’t type-checked. Use the compiler flag [noImplicitAny](https://www.typescriptlang.org/tsconfig/#noImplicitAny) to flag `any` implicit any as an error.
+Você geralmente quer evitar isso, no entanto, porque `any` não é verificado quanto ao tipo. Use a flag do compilador [noImplicitAny](https://www.typescriptlang.org/tsconfig/#noImplicitAny) para sinalizar `any` implícito como um erro.
 
-## Type Annotations on Variables
+## Anotações de Tipo em Variáveis
 
-When you declare a variable using const, var, or let, you can optionally add a type annotation to explicitly specify the type of the variable:
+Quando você declara uma variável usando `const`, `var` ou `let`, você pode opcionalmente adicionar uma anotação de tipo para especificar explicitamente o tipo da variável:
 
 ```ts
 let myName: string = "Alice";
 ```
 
-> TypeScript doesn’t use “types on the left”-style declarations like int x = 0; Type annotations will always go after the thing being typed.
+> O TypeScript não usa declarações no estilo “tipos à esquerda”, como `int x = 0`; as anotações de tipo sempre vão *depois* da coisa que está sendo tipada.
 
-In most cases, though, this isn’t needed. Wherever possible, TypeScript tries to automatically infer the types in your code. For example, the type of a variable is inferred based on the type of its initializer:
+Na maioria dos casos, no entanto, isso não é necessário. Sempre que possível, o TypeScript tenta *inferir* automaticamente os tipos no seu código. Por exemplo, o tipo de uma variável é inferido com base no tipo de seu inicializador:
 
 ```ts
-// No type annotation needed -- 'myName' inferred as type 'string'
+// Nenhuma anotação de tipo necessária -- 'myName' inferido como tipo 'string'
 let myName = "Alice";
 ```
 
-For the most part you don’t need to explicitly learn the rules of inference. If you’re starting out, try using fewer type annotations than you think - you might be surprised how few you need for TypeScript to fully understand what’s going on.
+Na maior parte, você não precisa aprender explicitamente as regras de inferência. Se você está começando, tente usar menos anotações de tipo do que você acha - você pode se surpreender com a quantidade de pouco que você precisa para o TypeScript entender completamente o que está acontecendo.
 
-## Functions
+## Funções
 
-Functions are the primary means of passing data around in JavaScript. TypeScript allows you to specify the types of both the input and output values of functions.
+Funções são o meio principal de passar dados em JavaScript. O TypeScript permite que você especifique os tipos dos valores de entrada e saída das funções.
 
-### Parameter Type Annotations
+### Anotações de Tipo de Parâmetro
 
-When you declare a function, you can add type annotations after each parameter to declare what types of parameters the function accepts. Parameter type annotations go after the parameter name:
+Quando você declara uma função, pode adicionar anotações de tipo após cada parâmetro para declarar que tipos de parâmetros a função aceita. Anotações de tipo de parâmetro vão após o nome do parâmetro:
 
 ```ts
-// Parameter type annotation
+// Anotação de tipo do parâmetro
 function greet(name: string) {
-  console.log("Hello, " + name.toUpperCase() + "!!");
+  console.log("Olá, " + name.toUpperCase() + "!!");
 }
 ```
 
-When a parameter has a type annotation, arguments to that function will be checked:
+Quando um parâmetro tem uma anotação de tipo, os argumentos para essa função serão verificados:
 
 ```ts
-// Would be a runtime error if executed!
+// Seria um erro em tempo de execução se executado!
 greet(42);
-Argument of type 'number' is not assignable to parameter of type 'string'.
+Argumento do tipo 'number' não é atribuível ao parâmetro do tipo 'string'.
 ```
 
-> Even if you don’t have type annotations on your parameters, TypeScript will still check that you passed the right number of arguments.
+> Mesmo que você não tenha anotações de tipo nos seus parâmetros, o TypeScript ainda verificará se você passou o número certo de argumentos.
 
-### Return Type Annotations
+### Anotações de Tipo de Retorno
 
-You can also add return type annotations. Return type annotations appear after the parameter list:
+Você também pode adicionar anotações de tipo de retorno. As anotações de tipo de retorno aparecem após a lista de parâmetros:
 
 ```ts
 function getFavoriteNumber(): number {
@@ -102,11 +102,11 @@ function getFavoriteNumber(): number {
 }
 ```
 
-Much like variable type annotations, you usually don’t need a return type annotation because TypeScript will infer the function’s return type based on its return statements. The type annotation in the above example doesn’t change anything. Some codebases will explicitly specify a return type for documentation purposes, to prevent accidental changes, or just for personal preference.
+Assim como as anotações de tipo de variável, você geralmente não precisa de uma anotação de tipo de retorno porque o TypeScript inferirá o tipo de retorno da função com base em suas instruções `return`. A anotação de tipo no exemplo acima não muda nada. Alguns códigos explicitarão um tipo de retorno para fins de documentação, para evitar mudanças acidentais, ou apenas por preferência pessoal.
 
-#### Functions Which Return Promises
+#### Funções Que Retornam Promises
 
-If you want to annotate the return type of a function which returns a promise, you should use the Promise type:
+Se você quiser anotar o tipo de retorno de uma função que retorna uma promessa, você deve usar o tipo `Promise`:
 
 ```ts
 async function getFavoriteNumber(): Promise<number> {
@@ -114,166 +114,166 @@ async function getFavoriteNumber(): Promise<number> {
 }
 ```
 
-### Anonymous Functions
+### Funções Anônimas
 
-Anonymous functions are a little bit different from function declarations. When a function appears in a place where TypeScript can determine how it’s going to be called, the parameters of that function are automatically given types.
+Funções anônimas são um pouco diferentes das declarações de função. Quando uma função aparece em um lugar onde o TypeScript pode determinar como ela será chamada, os parâmetros dessa função recebem tipos automaticamente.
 
-Here’s an example:
+Aqui está um exemplo:
 
 ```ts
 const names = ["Alice", "Bob", "Eve"];
  
-// Contextual typing for function - parameter s inferred to have type string
+// Tipagem contextual para função - parâmetro s inferido como tipo string
 names.forEach(function (s) {
   console.log(s.toUpperCase());
 });
  
-// Contextual typing also applies to arrow functions
+// A tipagem contextual também se aplica a funções de seta
 names.forEach((s) => {
   console.log(s.toUpperCase());
 });
 ```
 
-Even though the parameter s didn’t have a type annotation, TypeScript used the types of the forEach function, along with the inferred type of the array, to determine the type s will have.
+Embora o parâmetro `s` não tenha uma anotação de tipo, o TypeScript usou os tipos da função `forEach`, juntamente com o tipo inferido do array, para determinar o tipo que `s` terá.
 
-This process is called contextual typing because the context that the function occurred within informs what type it should have.
+Esse processo é chamado de *tipagem contextual* porque o *contexto* em que a função ocorre informa qual tipo ela deve ter.
 
-Similar to the inference rules, you don’t need to explicitly learn how this happens, but understanding that it does happen can help you notice when type annotations aren’t needed. Later, we’ll see more examples of how the context that a value occurs in can affect its type.
+Semelhante às regras de inferência, você não precisa aprender explicitamente como isso acontece, mas entender que *isso* acontece pode ajudá-lo a notar quando as anotações de tipo não são necessárias. Mais adiante, veremos mais exemplos de como o contexto em que um valor ocorre pode afetar seu tipo.
 
-## Object Types
+## Tipos de Objetos
 
-Apart from primitives, the most common sort of type you’ll encounter is an object type. This refers to any JavaScript value with properties, which is almost all of them! To define an object type, we simply list its properties and their types.
+Além dos primitivos, o tipo mais comum que você encontrará é um *tipo de objeto*. Isso se refere a qualquer valor JavaScript com propriedades, que é quase todos eles! Para definir um tipo de objeto, simplesmente listamos suas propriedades e seus tipos.
 
-For example, here’s a function that takes a point-like object:
+Por exemplo, aqui está uma função que aceita um objeto semelhante a um ponto:
 
 ```ts
-// The parameter's type annotation is an object type
+// A anotação de tipo do parâmetro é um tipo de objeto
 function printCoord(pt: { x: number; y: number }) {
-  console.log("The coordinate's x value is " + pt.x);
-  console.log("The coordinate's y value is " + pt.y);
+  console.log("O valor de x da coordenada é " + pt.x);
+  console.log("O valor de y da coordenada é " + pt.y);
 }
 printCoord({ x: 3, y: 7 });
 ```
 
-Here, we annotated the parameter with a type with two properties - x and y - which are both of type number. You can use , or ; to separate the properties, and the last separator is optional either way.
+Aqui, anotamos o parâmetro com um tipo com duas propriedades - `x` e `y` - que são ambas do tipo `number`. Você pode usar `,` ou `;` para separar as propriedades, e o último separador é opcional de qualquer forma.
 
-The type part of each property is also optional. If you don’t specify a type, it will be assumed to be any.
+A parte do tipo de cada propriedade também é opcional. Se você não especificar um tipo, será assumido como `any`.
 
-### Optional Properties
+### Propriedades Opcionais
 
-Object types can also specify that some or all of their properties are optional. To do this, add a ? after the property name:
+Os tipos de objeto também podem especificar que algumas ou todas as suas propriedades são *opcionais*. Para fazer isso, adicione um `?` após o nome da propriedade:
 
 ```ts
 function printName(obj: { first: string; last?: string }) {
   // ...
 }
-// Both OK
+// Ambos estão OK
 printName({ first: "Bob" });
 printName({ first: "Alice", last: "Alisson" });
 ```
 
-In JavaScript, if you access a property that doesn’t exist, you’ll get the value undefined rather than a runtime error. Because of this, when you read from an optional property, you’ll have to check for undefined before using it.
+No JavaScript, se você acessar uma propriedade que não existe, você obterá o valor `undefined` em vez de um erro em tempo de execução. Por causa disso, quando você *lê* de uma propriedade opcional, terá que verificar se é `undefined` antes de usá-la.
 
 ```ts
 function printName(obj: { first: string; last?: string }) {
-  // Error - might crash if 'obj.last' wasn't provided!
+  // Erro - pode falhar se 'obj.last' não foi fornecido!
   console.log(obj.last.toUpperCase());
-'obj.last' is possibly 'undefined'.
+  // 'obj.last' pode ser 'undefined'.
   if (obj.last !== undefined) {
     // OK
     console.log(obj.last.toUpperCase());
   }
  
-  // A safe alternative using modern JavaScript syntax:
+  // Uma alternativa segura usando a sintaxe moderna do JavaScript:
   console.log(obj.last?.toUpperCase());
 }
 ```
 
-## Union Types
+## Tipos de União
 
-TypeScript’s type system allows you to build new types out of existing ones using a large variety of operators. Now that we know how to write a few types, it’s time to start combining them in interesting ways.
+O sistema de tipos do TypeScript permite que você construa novos tipos a partir de tipos existentes usando uma grande variedade de operadores. Agora que sabemos como escrever alguns tipos, é hora de começar a *combiná-los* de maneiras interessantes.
 
-### Defining a Union Type
+### Definindo um Tipo de União
 
-The first way to combine types you might see is a union type. A union type is a type formed from two or more other types, representing values that may be any one of those types. We refer to each of these types as the union’s members.
+A primeira maneira de combinar tipos que você pode ver é um *tipo de união*. Um tipo de união é um tipo formado a partir de dois ou mais tipos, representando valores que podem ser *qualquer* um desses tipos. Chamamos cada um desses tipos de *membros* da união.
 
-Let’s write a function that can operate on strings or numbers:
+Vamos escrever uma função que pode operar em strings ou números:
 
 ```ts
 function printId(id: number | string) {
-  console.log("Your ID is: " + id);
+  console.log("Seu ID é: " + id);
 }
 // OK
 printId(101);
 // OK
 printId("202");
-// Error
+// Erro
 printId({ myID: 22342 });
-Argument of type '{ myID: number; }' is not assignable to parameter of type 'string | number'.
+Argumento do tipo '{ myID: number; }' não é atribuível ao parâmetro do tipo 'string | number'.
 ```
 
-### Working with Union Types
+### Trabalhando com Tipos de União
 
-It’s easy to provide a value matching a union type - simply provide a type matching any of the union’s members. If you have a value of a union type, how do you work with it?
+É fácil *fornecer* um valor que corresponde a um tipo de união - basta fornecer um tipo que corresponda a qualquer um dos membros da união. Mas se você *tem* um valor de um tipo de união, como você trabalha com ele?
 
-TypeScript will only allow an operation if it is valid for every member of the union. For example, if you have the union string | number, you can’t use methods that are only available on string:
+O TypeScript só permitirá uma operação se ela for válida para *todos* os membros da união. Por exemplo, se você tem a união `string | number`, não pode usar métodos que estão disponíveis apenas para `string`:
 
 ```ts
 function printId(id: number | string) {
   console.log(id.toUpperCase());
-Property 'toUpperCase' does not exist on type 'string | number'.
-  Property 'toUpperCase' does not exist on type 'number'.
+  // Propriedade 'toUpperCase' não existe no tipo 'string | number'.
+  // Propriedade 'toUpperCase' não existe no tipo 'number'.
 }
 ```
 
-The solution is to narrow the union with code, the same as you would in JavaScript without type annotations. Narrowing occurs when TypeScript can deduce a more specific type for a value based on the structure of the code.
+A solução é *reduzir* a união com código, da mesma forma que você faria no JavaScript sem anotações de tipo. *Reduzir* ocorre quando o TypeScript pode deduzir um tipo mais específico para um valor com base na estrutura do código.
 
-For example, TypeScript knows that only a string value will have a typeof value "string":
+Por exemplo, o TypeScript sabe que somente um valor `string` terá um valor `typeof` igual a `"string"`:
 
 ```ts
 function printId(id: number | string) {
   if (typeof id === "string") {
-    // In this branch, id is of type 'string'
+    // Neste ramo, id é do tipo 'string'
     console.log(id.toUpperCase());
   } else {
-    // Here, id is of type 'number'
+    // Aqui, id é do tipo 'number'
     console.log(id);
   }
 }
 ```
 
-Another example is to use a function like Array.isArray:
+Outro exemplo é usar uma função como `Array.isArray`:
 
 ```ts
 function welcomePeople(x: string[] | string) {
   if (Array.isArray(x)) {
-    // Here: 'x' is 'string[]'
-    console.log("Hello, " + x.join(" and "));
+    // Aqui: 'x' é 'string[]'
+    console.log("Olá, " + x.join(" e "));
   } else {
-    // Here: 'x' is 'string'
-    console.log("Welcome lone traveler " + x);
+    // Aqui: 'x' é 'string'
+    console.log("Bem-vindo viajante solitário " + x);
   }
 }
 ```
 
-Notice that in the else branch, we don’t need to do anything special - if x wasn’t a string[], then it must have been a string.
+Note que no ramo `else`, não precisamos fazer nada de especial - se `x` não era um `string[]`, então deve ter sido um `string`.
 
-Sometimes you’ll have a union where all the members have something in common. For example, both arrays and strings have a slice method. If every member in a union has a property in common, you can use that property without narrowing:
+Às vezes, você terá uma união onde todos os membros têm algo em comum. Por exemplo, tanto arrays quanto strings têm um método `slice`. Se cada membro de uma união tem uma propriedade em comum, você pode usar essa propriedade sem reduzir:
 
 ```ts
-// Return type is inferred as number[] | string
+// Tipo de retorno inferido como number[] | string
 function getFirstThree(x: number[] | string) {
   return x.slice(0, 3);
 }
 ```
 
-> It might be confusing that a union of types appears to have the intersection of those types’ properties. This is not an accident - the name union comes from type theory. The union number | string is composed by taking the union of the values from each type. Notice that given two sets with corresponding facts about each set, only the intersection of those facts applies to the union of the sets themselves. For example, if we had a room of tall people wearing hats, and another room of Spanish speakers wearing hats, after combining those rooms, the only thing we know about every person is that they must be wearing a hat.
+> Pode ser confuso que uma *união* de tipos parece ter a *interseção* das propriedades desses tipos. Isso não é um acidente - o nome *união* vem da teoria dos tipos. A *união* `number | string` é composta pela união *dos valores* de cada tipo. Note que, dado dois conjuntos com fatos correspondentes sobre cada conjunto, apenas a *interseção* desses fatos se aplica à *união* dos próprios conjuntos. Por exemplo, se tivermos uma sala de pessoas altas usando chapéus, e outra sala de falantes de espanhol usando chapéus, depois de combinar essas salas, a única coisa que sabemos sobre *cada* pessoa é que elas devem estar usando um chapéu.
 
-## Type Aliases
+## Aliases de Tipo
 
-We’ve been using object types and union types by writing them directly in type annotations. This is convenient, but it’s common to want to use the same type more than once and refer to it by a single name.
+Temos usado tipos de objeto e tipos de união escrevendo-os diretamente nas anotações de tipo. Isso é conveniente, mas é comum querer usar o mesmo tipo mais de uma vez e se referir a ele por um único nome.
 
-A type alias is exactly that - a name for any type. The syntax for a type alias is:
+Um *alias de tipo* é exatamente isso - um *nome* para qualquer *tipo*. A sintaxe para um alias de tipo é:
 
 ```ts
 type Point = {
@@ -281,22 +281,22 @@ type Point = {
   y: number;
 };
  
-// Exactly the same as the earlier example
+// Exatamente o mesmo que o exemplo anterior
 function printCoord(pt: Point) {
-  console.log("The coordinate's x value is " + pt.x);
-  console.log("The coordinate's y value is " + pt.y);
+  console.log("O valor de x da coordenada é " + pt.x);
+  console.log("O valor de y da coordenada é " + pt.y);
 }
  
 printCoord({ x: 100, y: 100 });
 ```
 
-You can actually use a type alias to give a name to any type at all, not just an object type. For example, a type alias can name a union type:
+Na verdade, você pode usar um alias de tipo para dar um nome a qualquer tipo, não apenas a um tipo de objeto. Por exemplo, um alias de tipo pode nomear um tipo de união:
 
 ```ts
 type ID = number | string;
 ```
 
-Note that aliases are only aliases - you cannot use type aliases to create different/distinct “versions” of the same type. When you use the alias, it’s exactly as if you had written the aliased type. In other words, this code might look illegal, but is OK according to TypeScript because both types are aliases for the same type:
+Note que aliases são *somente* aliases - você não pode usar aliases de tipo para criar “versões” diferentes/distintas do mesmo tipo. Quando você usa o alias, é exatamente como se você tivesse escrito o tipo aliasado. Em outras palavras, este código pode *parecer* ilegal, mas está OK de acordo com o TypeScript porque ambos os tipos são aliases para o mesmo tipo:
 
 ```ts
 type UserInputSanitizedString = string;
@@ -305,16 +305,18 @@ function sanitizeInput(str: string): UserInputSanitizedString {
   return sanitize(str);
 }
  
-// Create a sanitized input
+// Crie uma entrada sanitizada
 let userInput = sanitizeInput(getInput());
  
-// Can still be re-assigned with a string though
+// Ainda pode ser reatribuído com uma string, no entanto
 userInput = "new input";
 ```
 
 ## Interfaces
 
-An interface declaration is another way to name an object type:
+Uma *declaração de interface* é outra forma de nomear um tipo de objeto:
+
+#### Exemplo com Interface
 
 ```ts
 interface Point {
@@ -323,18 +325,18 @@ interface Point {
 }
  
 function printCoord(pt: Point) {
-  console.log("The coordinate's x value is " + pt.x);
-  console.log("The coordinate's y value is " + pt.y);
+  console.log("O valor de x da coordenada é " + pt.x);
+  console.log("O valor de y da coordenada é " + pt.y);
 }
  
 printCoord({ x: 100, y: 100 });
 ```
 
-Just like when we used a type alias above, the example works just as if we had used an anonymous object type. TypeScript is only concerned with the structure of the value we passed to printCoord - it only cares that it has the expected properties. Being concerned only with the structure and capabilities of types is why we call TypeScript a structurally typed type system.
+Assim como no exemplo com um alias de tipo, o TypeScript não se importa com o nome da interface quando você passa um valor para `printCoord`. O que importa é a *estrutura* do valor - ele precisa ter as propriedades esperadas. É por isso que chamamos o TypeScript de sistema de tipos *estrutural*.
 
-### Differences Between Type Aliases and Interfaces
+### Diferenças Entre Alias de Tipo e Interface
 
-Type aliases and interfaces are very similar, and in many cases you can choose between them freely. Almost all features of an interface are available in type, the key distinction is that a type cannot be re-opened to add new properties vs an interface which is always extendable.
+Embora `type` e `interface` sejam bastante similares e muitos dos recursos de uma `interface` estejam disponíveis em `type`, há algumas diferenças importantes:
 
 #### Interface
 
@@ -352,7 +354,7 @@ bear.name;
 bear.honey;
 ```
 
-#### Type
+#### Tipo
 
 ```ts
 type Animal = {
@@ -368,7 +370,7 @@ bear.name;
 bear.honey;
 ```
 
-#### Adding new fields to an existing interface
+#### Adicionando Novos Campos a uma Interface Existente
 
 ```ts
 interface Window {
@@ -383,7 +385,7 @@ const src = 'const a = "Hello World"';
 window.ts.transpileModule(src, {});
 ```
 
-#### A type cannot be changed after being created
+#### Um Tipo Não Pode Ser Alterado Após Ser Criado
 
 ```ts
 type Window = {
@@ -394,78 +396,78 @@ type Window = {
   ts: TypeScriptAPI;
 }
 
- // Error: Duplicate identifier 'Window'.
+// Erro: Identificador duplicado 'Window'.
 ```
 
-You’ll learn more about these concepts in later chapters, so don’t worry if you don’t understand all of these right away.
+Você aprenderá mais sobre esses conceitos em capítulos futuros, então não se preocupe se não entender todos esses detalhes imediatamente.
 
-- Prior to TypeScript version 4.2, type alias names may appear in error messages, sometimes in place of the equivalent anonymous type (which may or may not be desirable). Interfaces will always be named in error messages.
-- Type aliases may not participate in declaration merging, but interfaces can.
-- Interfaces may only be used to declare the shapes of objects, not rename primitives.
-- Interface names will always appear in their original form in error messages, but only when they are used by name.
-- Using interfaces with extends can often be more performant for the compiler than type aliases with intersections
+- **Mensagens de Erro**: Antes da versão 4.2 do TypeScript, os nomes dos aliases de tipo [podem aparecer nas mensagens de erro](https://www.typescriptlang.org/play/#code/PTAEGEHsFsAcEsA2BTATqNrLusgzngIYDm+oA7koqIYuYQJ56gCueyoAUCKAC4AWHAHaFcoSADMaQ0PCG80EwgGNkALk6c5C1EtWgAsqOi1QAb06groEbjWg8vVHOKcAvpokshy3vEgyyMr8kEbQJogAFND2YREAlOaW1soBeJAoAHSIkMTRmbbI8e6aPMiZxJmgACqCGKhY6ABGyDnkFFQ0dIzMbBwCwqIccabcYLyQoKjIEmh8kwN8DLAc5PzwwbLMyAAeK77IACYaQSEjUWZWhfYAjABMAMwALA+gbsVjoADqgjKESytQPxCHghAByXigYgBfr8LAsYj8aQMUASbDQcRSExCeCwFiIQh+AKfAYyBiQFgOPyIaikSGLQo0Zj-aazaY+dSaXjLDgAGXgAC9CKhDqAALxJaw2Ib2RzOISuDycLw+ImBYKQflCkWRRD2LXCw6JCxS1JCdJZHJ5RAFIbFJU8ADKC3WzEcnVZaGYE1ABpFnFOmsFhsil2uoHuzwArO9SmAAEIsSFrZB-GgAjjA5gtVN8VCEc1o1C4Q4AGlR2AwO1EsBQoAAbvB-gJ4HhPgB5aDwem-Ph1TCV3AEEirTp4ELtRbTPD4vwKjOfAuioSQHuDXBcnmgACC+eCONFEs73YAPGGZVT5cRyyhiHh7AAON7lsG3vBggB8XGV3l8-nVISOgghxoLq9i7io-AHsayRWGaFrlFauq2rg9qaIGQHwCBqChtKdgRo8TxRjeyB3o+7xAA), às vezes no lugar do tipo anônimo equivalente (o que pode ou não ser desejável). Interfaces sempre serão nomeadas nas mensagens de erro.
+- **Mesclagem de Declarações**: Aliases de tipo podem não participar [da mesclagem de declarações, mas interfaces podem](https://www.typescriptlang.org/play/?#code/PTAEEEDtQS0gXApgJwGYEMDGjSfdAIx2UQFoB7AB0UkQBMAoEUfO0Wgd1ADd0AbAK6IAzizp16ALgYM4SNFhwBZdAFtV-UAG8GoPaADmNAcMmhh8ZHAMMAvjLkoM2UCvWad+0ARL0A-GYWVpA29gyY5JAWLJAwGnxmbvGgALzauvpGkCZmAEQAjABMAMwALLkANBl6zABi6DB8okR4Jjg+iPSgABboovDk3jjo5pbW1d6+dGb5djLwAJ7UoABKiJTwjThpnpnGpqPBoTLMAJrkArj4kOTwYmycPOhW6AR8IrDQ8N04wmo4HHQCwYi2Waw2W1S6S8HX8gTGITsQA).
+- **Renomear Primitivos**: Interfaces só podem ser usadas para [declarar formas de objetos, não para renomear primitivos](https://www.typescriptlang.org/play/?#code/PTAEAkFMCdIcgM6gC4HcD2pIA8CGBbABwBtIl0AzUAKBFAFcEBLAOwHMUBPQs0XFgCahWyGBVwBjMrTDJMAshOhMARpD4tQ6FQCtIE5DWoixk9QEEWAeV37kARlABvaqDegAbrmL1IALlAEZGV2agBfampkbgtrWwMAJlAAXmdXdy8ff0Dg1jZwyLoAVWZ2Lh5QVHUJflAlSFxROsY5fFAWAmk6CnRoLGwmILzQQmV8JmQmDzI-SOiKgGV+CaYAL0gBBdyy1KCQ-Pn1AFFplgA5enw1PtSWS+vCsAAVAAtB4QQWOEMKBuYVUiVCYvYQsUTQcRSBDGMGmKSgAAa-VEgiQe2GLgKQA).
+- **Nomes de Interface**: Nomes de interfaces [*sempre* aparecem em sua forma original](https://www.typescriptlang.org/play/?#code/PTAEGEHsFsAcEsA2BTATqNrLusgzngIYDm+oA7koqIYuYQJ56gCueyoAUCKAC4AWHAHaFcoSADMaQ0PCG80EwgGNkALk6c5C1EtWgAsqOi1QAb06groEbjWg8vVHOKcAvpokshy3vEgyyMr8kEbQJogAFND2YREAlOaW1soBeJAoAHSIkMTRmbbI8e6aPMiZxJmgACqCGKhY6ABGyDnkFFQ0dIzMbBwCwqIccabcYLyQoKjIEmh8kwN8DLAc5PzwwbLMyAAeK77IACYaQSEjUWY2Q-YAjABMAMwALA+gbsVjNXW8yxySoAADaAA0CCaZbPh1XYqXgOIY0ZgmcK0AA0nyaLFhhGY8F4AHJmEJILCWsgZId4NNfIgGFdcIcUTVfgBlZTOWC8T7kAJ42G4eT+GS42QyRaYbCgXAEEguTzeXyCjDBSAAQSE8Ai0Xsl0K9kcziExDeiQs1lAqSE6SyOTy0AKQ2KHk4p1V6s1OuuoHuzwArMagA) nas mensagens de erro, mas *somente* quando são usadas pelo nome.
+- **Performance de Compilação**: Usar interfaces com `extends` [pode ser
 
-For the most part, you can choose based on personal preference, and TypeScript will tell you if it needs something to be the other kind of declaration. If you would like a heuristic, use interface until you need to use features from type.
+ mais eficiente para o compilador](https://github.com/microsoft/TypeScript/wiki/Performance#preferring-interfaces-over-intersections) do que usar aliases de tipo com interseções.
 
-## Type Assertions
+Na maior parte dos casos, você pode escolher com base na preferência pessoal e o TypeScript informará se é necessário usar o outro tipo de declaração. Se você precisar de uma diretriz, use `interface` até precisar de recursos específicos de `type`.
 
-Sometimes you will have information about the type of a value that TypeScript can’t know about.
+### Aserções de Tipo
 
-For example, if you’re using document.getElementById, TypeScript only knows that this will return some kind of HTMLElement, but you might know that your page will always have an HTMLCanvasElement with a given ID.
+Às vezes, você tem informações sobre o tipo de um valor que o TypeScript não consegue inferir automaticamente.
 
-In this situation, you can use a type assertion to specify a more specific type:
+Por exemplo, se você estiver usando `document.getElementById`, o TypeScript só sabe que isso retornará algum tipo de `HTMLElement`, mas você pode saber que sua página sempre terá um `HTMLCanvasElement` com um ID específico.
+
+Nesse caso, você pode usar uma *asserção de tipo* para especificar um tipo mais específico:
 
 ```ts
 const myCanvas = document.getElementById("main_canvas") as HTMLCanvasElement;
 ```
 
-Like a type annotation, type assertions are removed by the compiler and won’t affect the runtime behavior of your code.
+Assim como uma anotação de tipo, asserções de tipo são removidas pelo compilador e não afetam o comportamento de tempo de execução do seu código.
 
-You can also use the angle-bracket syntax (except if the code is in a .tsx file), which is equivalent:
+Você também pode usar a sintaxe de colchetes angulares (exceto se o código estiver em um arquivo `.tsx`), que é equivalente:
 
 ```ts
 const myCanvas = <HTMLCanvasElement>document.getElementById("main_canvas");
 ```
 
-> Reminder: Because type assertions are removed at compile-time, there is no runtime checking associated with a type assertion. There won’t be an exception or null generated if the type assertion is wrong.
+> Lembre-se: Como asserções de tipo são removidas na compilação, não há verificação em tempo de execução associada a uma asserção de tipo. Não haverá exceção ou `null` gerado se a asserção de tipo estiver errada.
 
-TypeScript only allows type assertions which convert to a more specific or less specific version of a type. This rule prevents “impossible” coercions like:
+O TypeScript só permite asserções de tipo que convertem para uma versão *mais específica* ou *menos específica* de um tipo. Essa regra evita coerções "impossíveis" como:
 
 ```ts
 const x = "hello" as number;
-Conversion of type 'string' to type 'number' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+// Conversão do tipo 'string' para o tipo 'number' pode ser um erro porque nenhum dos tipos se sobrepõe ao outro.
 ```
 
-Sometimes this rule can be too conservative and will disallow more complex coercions that might be valid. If this happens, you can use two assertions, first to any (or unknown, which we’ll introduce later), then to the desired type:
+Às vezes, essa regra pode ser muito conservadora e impedir coerções mais complexas que podem ser válidas. Se isso acontecer, você pode usar duas asserções, primeiro para `any` (ou `unknown`, que será introduzido mais tarde), e então para o tipo desejado:
 
 ```ts
 const a = expr as any as T;
 ```
 
-## Literal Types
+### Tipos Literais
 
-In addition to the general types string and number, we can refer to specific strings and numbers in type positions.
+Além dos tipos gerais `string` e `number`, podemos nos referir a *strings* e *números* específicos em posições de tipo.
 
-One way to think about this is to consider how JavaScript comes with different ways to declare a variable. Both var and let allow for changing what is held inside the variable, and const does not. This is reflected in how TypeScript creates types for literals.
+Uma maneira de pensar sobre isso é considerar como o JavaScript vem com diferentes maneiras de declarar uma variável. Tanto `var` quanto `let` permitem mudar o que é armazenado dentro da variável, e `const` não. Isso é refletido em como o TypeScript cria tipos para literais.
 
 ```ts
 let changingString = "Hello World";
 changingString = "Olá Mundo";
-// Because `changingString` can represent any possible string, that
-// is how TypeScript describes it in the type system
+// Como `changingString` pode representar qualquer string possível, esse é o tipo descrito pelo TypeScript no sistema de tipos
 changingString;
-      
-let changingString: string
- 
+
+let changingString: string;
+
 const constantString = "Hello World";
-// Because `constantString` can only represent 1 possible string, it
-// has a literal type representation
+// Como `constantString` só pode representar 1 string possível, ele tem uma representação de tipo literal
 constantString;
-      
-const constantString: "Hello World"
+
+const constantString: "Hello World";
 ```
 
-By themselves, literal types aren’t very valuable:
+Por si só, os tipos literais não são muito valiosos:
 
 ```ts
 let x: "hello" = "hello";
@@ -473,12 +475,12 @@ let x: "hello" = "hello";
 x = "hello";
 // ...
 x = "howdy";
-Type '"howdy"' is not assignable to type '"hello"'.
+// Tipo '"howdy"' não é atribuível ao tipo '"hello"'.
 ```
 
-It’s not much use to have a variable that can only have one value!
+Não adianta muito ter uma variável que só pode ter um valor!
 
-But by combining literals into unions, you can express a much more useful concept - for example, functions that only accept a certain set of known values:
+Mas ao *combinar* literais em uniões, você pode expressar um conceito muito mais útil - por exemplo, funções que aceitam apenas um conjunto de valores conhecidos:
 
 ```ts
 function printText(s: string, alignment: "left" | "right" | "center") {
@@ -489,7 +491,7 @@ printText("G'day, mate", "centre");
 Argument of type '"centre"' is not assignable to parameter of type '"left" | "right" | "center"'.
 ```
 
-Numeric literal types work the same way:
+Tipos literais numéricos funcionam da mesma maneira:
 
 ```ts
 function compare(a: string, b: string): -1 | 0 | 1 {
@@ -497,7 +499,7 @@ function compare(a: string, b: string): -1 | 0 | 1 {
 }
 ```
 
-Of course, you can combine these with non-literal types:
+Claro, você pode combinar esses com tipos não literais:
 
 ```ts
 interface Options {
@@ -512,11 +514,11 @@ configure("automatic");
 Argument of type '"automatic"' is not assignable to parameter of type 'Options | "auto"'.
 ```
 
-There’s one more kind of literal type: boolean literals. There are only two boolean literal types, and as you might guess, they are the types true and false. The type boolean itself is actually just an alias for the union true | false.
+Há um tipo literal mais: literais booleanos. Existem apenas dois tipos literais booleanos, e como você pode adivinhar, são os tipos `true` e `false`. O tipo `boolean` em si é na verdade apenas um alias para a união `true | false`.
 
-### Literal Inference
+### Inferência Literal
 
-When you initialize a variable with an object, TypeScript assumes that the properties of that object might change values later. For example, if you wrote code like this:
+Quando você inicializa uma variável com um objeto, o TypeScript assume que as propriedades desse objeto podem mudar de valor mais tarde. Por exemplo, se você escrever um código assim:
 
 ```ts
 const obj = { counter: 0 };
@@ -525,114 +527,112 @@ if (someCondition) {
 }
 ```
 
-TypeScript doesn’t assume the assignment of 1 to a field which previously had 0 is an error. Another way of saying this is that obj.counter must have the type number, not 0, because types are used to determine both reading and writing behavior.
+O TypeScript não assume que a atribuição de `1` a um campo que tinha anteriormente `0` é um erro. Outra maneira de dizer isso é que `obj.counter` deve ter o tipo `number`, não `0`, porque os tipos são usados para determinar tanto o comportamento de *leitura* quanto o de *escrita*.
 
-The same applies to strings:
+O mesmo se aplica a strings:
 
 ```ts
 declare function handleRequest(url: string, method: "GET" | "POST"): void;
- 
+
 const req = { url: "https://example.com", method: "GET" };
 handleRequest(req.url, req.method);
 Argument of type 'string' is not assignable to parameter of type '"GET" | "POST"'.
 ```
 
-In the above example req.method is inferred to be string, not "GET". Because code can be evaluated between the creation of req and the call of handleRequest which could assign a new string like "GUESS" to req.method, TypeScript considers this code to have an error.
+No exemplo acima, `req.method` é inferido como `string`, não `"GET"`. Como o código pode ser avaliado entre a criação de `req` e a chamada de `handleRequest`, o que poderia atribuir uma nova string como `"GUESS"` a `req.method`, o TypeScript considera que esse código tem um erro.
 
-There are two ways to work around this.
+Existem duas maneiras de contornar isso.
 
-1. You can change the inference by adding a type assertion in either location:
+1. Você pode alterar a inferência adicionando uma asserção de tipo em qualquer uma das localizações:
 
 ```ts
-// Change 1:
+// Mudança 1:
 const req = { url: "https://example.com", method: "GET" as "GET" };
-// Change 2
+// Mudança 2
 handleRequest(req.url, req.method as "GET");
 ```
 
-Change 1 means “I intend for req.method to always have the literal type "GET"”, preventing the possible assignment of "GUESS" to that field after. Change 2 means “I know for other reasons that req.method has the value "GET"“.
+A Mudança 1 significa “Eu pretendo que `req.method` sempre tenha o *tipo literal* `"GET"`”, evitando a possível atribuição de `"GUESS"` a esse campo depois. A Mudança 2 significa “Eu sei por outros motivos que `req.method` tem o valor `"GET"`“.
 
-2. You can use as const to convert the entire object to be type literals:
+2. Você pode usar `as const` para converter o objeto inteiro para tipos literais:
 
 ```ts
 const req = { url: "https://example.com", method: "GET" } as const;
 handleRequest(req.url, req.method);
 ```
 
-The as const suffix acts like const but for the type system, ensuring that all properties are assigned the literal type instead of a more general version like string or number.
+O sufixo `as const` atua como `const` mas para o sistema de tipos, garantindo que todas as propriedades sejam atribuídas ao tipo literal em vez de uma versão mais geral como `string` ou `number`.
 
-## null and undefined
+## `null` e `undefined`
 
-JavaScript has two primitive values used to signal absent or uninitialized value: null and undefined.
+JavaScript tem dois valores primitivos usados para sinalizar valor ausente ou não inicializado: `null` e `undefined`.
 
-TypeScript has two corresponding types by the same names. How these types behave depends on whether you have the [strictNullChecks](https://www.typescriptlang.org/tsconfig/#strictNullChecks) option on.
+O TypeScript tem dois *tipos* correspondentes com os mesmos nomes. Como esses tipos se comportam depende de você ter a opção [strictNullChecks](https://www.typescriptlang.org/tsconfig/#strictNullChecks) ativada.
 
-### strictNullChecks off
+### strictNullChecks desativado
 
-With [strictNullChecks](https://www.typescriptlang.org/tsconfig/#strictNullChecks) off, values that might be null or undefined can still be accessed normally, and the values null and undefined can be assigned to a property of any type. This is similar to how languages without null checks (e.g. C#, Java) behave. The lack of checking for these values tends to be a major source of bugs; we always recommend people turn [strictNullChecks](https://www.typescriptlang.org/tsconfig/#strictNullChecks) on if it’s practical to do so in their codebase.
+Com [strictNullChecks](https://www.typescriptlang.org/tsconfig/#strictNullChecks) *desativado*, valores que podem ser `null` ou `undefined` ainda podem ser acessados normalmente, e os valores `null` e `undefined` podem ser atribuídos a uma propriedade de qualquer tipo. Isso é semelhante ao comportamento de linguagens sem verificações de nulo (por exemplo, C#, Java). A falta de verificação para esses valores tende a ser uma grande fonte de erros; sempre recomendamos que as pessoas ativem [strictNullChecks](https://www.typescriptlang.org/tsconfig/#strictNullChecks) se for prático fazê-lo em seu código.
 
-### strictNullChecks on
+### strictNullChecks ativado
 
-With [strictNullChecks](https://www.typescriptlang.org/tsconfig/#strictNullChecks) on, when a value is null or undefined, you will need to test for those values before using methods or properties on that value. Just like checking for undefined before using an optional property, we can use narrowing to check for values that might be null:
+Com [strictNullChecks](https://www.typescriptlang.org/tsconfig/#strictNullChecks) *ativado*, quando um valor é `null` ou `undefined`, você precisará testar esses valores antes de usar métodos ou propriedades nesse valor. Assim como verificar `undefined` antes de usar uma propriedade opcional, podemos usar *narrowing* para verificar valores que podem ser `null`:
 
 ```ts
 function doSomething(x: string | null) {
   if (x === null) {
-    // do nothing
+    // não faz nada
   } else {
-    console.log("Hello, " + x.toUpperCase());
+    console.log("Olá, " + x.toUpperCase());
   }
 }
 ```
 
-### Non-null Assertion Operator (Postfix ! )
+### Operador de Asserção Não-Nulo (Postfix `!`)
 
-TypeScript also has a special syntax for removing null and undefined from a type without doing any explicit checking. Writing ! after any expression is effectively a type assertion that the value isn’t null or undefined:
+O TypeScript também tem uma sintaxe especial para remover `null` e `undefined` de um tipo sem fazer nenhuma verificação explícita. Escrever `!` após qualquer expressão é efetivamente uma asserção de tipo de que o valor não é `null` ou `undefined`:
 
 ```ts
 function liveDangerously(x?: number | null) {
-  // No error
+  // Sem erro
   console.log(x!.toFixed());
 }
 ```
 
-Just like other type assertions, this doesn’t change the runtime behavior of your code, so it’s important to only use ! when you know that the value can’t be null or undefined.
+Assim como outras asserções de tipo, isso não altera o comportamento em tempo de execução do seu código, então é importante usar `!` apenas quando você sabe que o valor *não pode ser* nulo ou indefinido.
 
 ## Enums
 
-Enums are a feature added to JavaScript by TypeScript which allows for describing a value which could be one of a set of possible named constants. Unlike most TypeScript features, this is not a type-level addition to JavaScript but something added to the language and runtime. Because of this, it’s a feature which you should know exists, but maybe hold off on using unless you are sure. You can read more about enums in the [Enum reference page](https://www.typescriptlang.org/docs/handbook/enums.html).
+Enums são um recurso adicionado ao JavaScript pelo TypeScript que permite descrever um valor que pode ser um de um conjunto de constantes nomeadas. Diferente da maioria dos recursos do TypeScript, isso *não* é uma adição ao nível de tipo do JavaScript, mas algo adicionado à linguagem e ao runtime. Por causa disso, é um recurso que você deve saber que existe, mas talvez evitar usar a menos que esteja certo. Você pode ler mais sobre enums na [página de referência de Enums](https://www.typescriptlang.org/docs/handbook/enums.html).
 
-## Less Common Primitives
+## Primitivos Menos Comuns
 
-It’s worth mentioning the rest of the primitives in JavaScript which are represented in the type system. Though we will not go into depth here.
+Vale mencionar o resto dos primitivos em JavaScript que são representados no sistema de tipos. Embora não entraremos em detalhes aqui.
 
 ### bigint
 
-From ES2020 onwards, there is a primitive in JavaScript used for very large integers, BigInt:
+A partir do ES2020, há um primitivo em JavaScript usado para inteiros muito grandes, `BigInt`:
 
 ```ts
-// Creating a bigint via the BigInt function
+// Criando um bigint via a função BigInt
 const oneHundred: bigint = BigInt(100);
- 
-// Creating a BigInt via the literal syntax
+
+// Criando um BigInt via a sintaxe literal
 const anotherHundred: bigint = 100n;
 ```
 
-You can learn more about BigInt in [the TypeScript 3.2 release notes](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-2.html#bigint).
-
+Você pode aprender mais sobre BigInt nas [notas de lançamento do TypeScript 3.2](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-2.html#bigint).
 
 ### symbol
 
-There is a primitive in JavaScript used to create a globally unique reference via the function Symbol():
+Há um primitivo em JavaScript usado para criar uma referência globalmente única via a função `Symbol()`:
 
 ```ts
 const firstName = Symbol("name");
 const secondName = Symbol("name");
- 
+
 if (firstName === secondName) {
-This comparison appears to be unintentional because the types 'typeof firstName' and 'typeof secondName' have no overlap.
-  // Can't ever happen
+  // Isso nunca acontecerá
 }
 ```
 
-You can learn more about them in [Symbols reference page](https://www.typescriptlang.org/docs/handbook/symbols.html).
+Você pode aprender mais sobre eles na [página de referência de Symbols](https://www.typescriptlang.org/docs/handbook/symbols.html).
