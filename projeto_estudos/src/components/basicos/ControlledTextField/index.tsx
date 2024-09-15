@@ -22,6 +22,9 @@ export default function ControlledTextField<CustomType extends FieldValues>({
   const { field } = useController({
     control: control,
     name: name,
+    rules: {
+      required,
+    },
   });
 
   const handleChange: ChangeEventHandler<

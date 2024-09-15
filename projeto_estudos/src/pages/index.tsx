@@ -1,10 +1,10 @@
 import { Button, Grid2 } from "@mui/material";
-import { Path, useForm } from "react-hook-form";
-import ControlledAutoComplete from "./components/basicos/ControlledAutoComplete";
-import ControlledMultiSelect from "./components/basicos/ControlledMultiSelect";
-import ControlledTextField from "./components/basicos/ControlledTextField";
+import ControlledAutoComplete from "../components/basicos/ControlledAutoComplete";
+import ControlledMultiSelect from "../components/basicos/ControlledMultiSelect";
+import ControlledTextField from "../components/basicos/ControlledTextField";
 import { useEffect, useState } from "react";
 import { Framework, Versao } from "@/types/linguagem";
+import { useForm } from "react-hook-form";
 
 interface AutocompleteResult {
   label: string;
@@ -63,6 +63,8 @@ export default function Home() {
     setValue("container", sanitizedName);
   };
 
+  const resultados = watch();
+
   useEffect(() => {
     fetch("http://localhost:3001/docker/framework/frontend/")
       .then((res) => res.json())
@@ -73,6 +75,14 @@ export default function Home() {
         setFrameworks(data);
       });
   }, []);
+
+  useEffect(() => {
+    const frameworkChange = resultados.framework.value;
+    if (typeof frameworkChange === "number") {
+      const data = frameworks.find(el => el.id === frameworkChange);
+      setVersaoFramework(data?.versoes || []);
+    }
+  }, [frameworks, resultados]);
 
   return (
     <Grid2
@@ -109,7 +119,7 @@ export default function Home() {
           control={control}
           label="Versão"
           name="versao_framework"
-          disabled={watch("framework").value === ""}
+          disabled={resultados.framework.value === ""}
           options={versaoFramework.map((el) => ({
             label: String(el.versao),
             value: el.id,
@@ -121,7 +131,7 @@ export default function Home() {
         <ControlledMultiSelect
           control={control}
           label="Complementos"
-          disabled={watch("versao_framework").value === ""}
+          disabled={resultados.versao_framework.value === ""}
           required
           name="complementos"
           names={names}
@@ -132,7 +142,7 @@ export default function Home() {
         <ControlledAutoComplete
           control={control}
           label="Linguagem"
-          disabled={watch("versao_framework").value === ""}
+          disabled={resultados.versao_framework.value === ""}
           name="tecnologia"
           options={[
             { label: "Node", value: 1 },
@@ -146,7 +156,7 @@ export default function Home() {
           control={control}
           label="Versão"
           name="versao_linguagem"
-          disabled={watch("tecnologia").value === ""}
+          disabled={resultados.tecnologia.value === ""}
           options={[
             { label: "18.0", value: 1 },
             { label: "3.0", value: 2 },
@@ -164,7 +174,7 @@ export default function Home() {
           actionOnChange={handleChangeName}
         />
       </Grid2>
-      <Grid2 size={4}>
+      <Grid2 size={8}>
         <Button
           variant="contained"
           disableElevation
