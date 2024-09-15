@@ -1,110 +1,176 @@
-import { Autocomplete, Button, Checkbox, FormControl, Grid2, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField } from "@mui/material";
-import React from "react";
+import { Button, Grid2 } from "@mui/material";
+import { Path, useForm } from "react-hook-form";
+import ControlledAutoComplete from "./components/basicos/ControlledAutoComplete";
+import ControlledMultiSelect from "./components/basicos/ControlledMultiSelect";
+import ControlledTextField from "./components/basicos/ControlledTextField";
+import { useEffect, useState } from "react";
+import { Framework, Versao } from "@/types/linguagem";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
+interface AutocompleteResult {
+  label: string;
+  value: string | number;
+}
+
+interface Projeto {
+  nome: string;
+  framework: AutocompleteResult;
+  versao_framework: AutocompleteResult;
+  complementos: string[];
+  tecnologia: AutocompleteResult;
+  versao_linguagem: AutocompleteResult;
+  container: string;
+  comida: string;
+}
 
 const names = [
-  "Material UI", "Alpine.JS", "Driver.JS", "Swipper.JS"
+  "Typescript",
+  "ES-Lint",
+  "Tailwind",
+  "src/ Directory",
+  "App-Router",
+  "Import-Alias",
 ];
 
 export default function Home() {
+  const [frameworks, setFrameworks] = useState<Framework[]>([]);
 
-  const [personName, setPersonName] = React.useState<string[]>([]);
+  const [versaoFramework, setVersaoFramework] = useState<Versao[]>([]);
 
-  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      typeof value === 'string' ? value.split(',') : value,
-    );
+  const { control, handleSubmit, setValue, watch } = useForm<Projeto>({
+    defaultValues: {
+      nome: "",
+      framework: { label: "", value: "" },
+      versao_framework: { label: "", value: "" },
+      versao_linguagem: { label: "", value: "" },
+      complementos: [],
+      tecnologia: { label: "", value: "" },
+      container: "",
+    },
+  });
+
+  const handleSubmitForm = () => {
+    handleSubmit((data) => {
+      console.log(data);
+    })();
   };
 
+  const handleChangeName = (nome: string) => {
+    const sanitizedName = nome
+      .replace(/[^a-zA-Z0-9_ ]+/g, "")
+      .replace(/ /g, "_")
+      .toLowerCase();
+
+    setValue("container", sanitizedName);
+  };
+
+  useEffect(() => {
+    fetch("http://localhost:3001/docker/framework/frontend/")
+      .then((res) => res.json())
+      .then((data: Framework[] | null | undefined) => {
+        if (!data) {
+          return;
+        }
+        setFrameworks(data);
+      });
+  }, []);
+
   return (
-    <Grid2 container spacing={2}
-      justifyContent={'center'}
+    <Grid2
+      container
+      spacing={2}
+      justifyContent={"center"}
       paddingTop={4}
       paddingInline={4}
     >
       <Grid2 size={12}>
-        <TextField
-          sx={{ width: '100%' }}
+        <ControlledTextField
+          control={control}
           label="Nome do Projeto"
+          name="nome"
+          sx={{ width: "100%" }}
+          required
+          actionOnChange={handleChangeName}
         />
       </Grid2>
       <Grid2 size={6}>
-        <Autocomplete
-          sx={{ width: '100%' }}
-          options={[
-            { label: 'React', id: 1 },
-            { label: 'Angular', id: 1 },
-          ]}
-          renderInput={(params) => <TextField {...params} label="Framework" />}
+        <ControlledAutoComplete
+          control={control}
+          label="Framework"
+          name="framework"
+          options={frameworks.map((el) => ({
+            label: el.nome,
+            value: el.id,
+          }))}
+          required
         />
       </Grid2>
       <Grid2 size={6}>
-        <Autocomplete
-          sx={{ width: '100%' }}
-          options={[
-            { label: '18.0', id: 1 },
-            { label: '18.0', id: 1 },
-          ]}
-          renderInput={(params) => <TextField {...params} label="Versão" />}
+        <ControlledAutoComplete
+          control={control}
+          label="Versão"
+          name="versao_framework"
+          disabled={watch("framework").value === ""}
+          options={versaoFramework.map((el) => ({
+            label: String(el.versao),
+            value: el.id,
+          }))}
+          required
         />
       </Grid2>
       <Grid2 size={12}>
-        <FormControl sx={{ width: '100%' }}>
-          <InputLabel id="demo-multiple-checkbox-label">Bibliotecas</InputLabel>
-          <Select
-            labelId="demo-multiple-checkbox-label"
-            id="demo-multiple-checkbox"
-            multiple
-            value={personName}
-            onChange={handleChange}
-            input={<OutlinedInput label="Biblioteca" />}
-            renderValue={(selected) => selected.join(', ')}
-            MenuProps={MenuProps}
-          >
-            {names.map((name) => (
-              <MenuItem key={name} value={name}>
-                <Checkbox checked={personName.includes(name)} />
-                <ListItemText primary={name} />
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid2>
-      <Grid2 size={6}>
-        <Autocomplete
-          sx={{ width: '100%' }}
-          options={[
-            { label: 'Node', id: 1 },
-            { label: 'Dart', id: 1 },
-          ]}
-          renderInput={(params) => <TextField {...params} label="Linguagem" />}
+        <ControlledMultiSelect
+          control={control}
+          label="Complementos"
+          disabled={watch("versao_framework").value === ""}
+          required
+          name="complementos"
+          names={names}
+          sx={{ width: "100%" }}
         />
       </Grid2>
       <Grid2 size={6}>
-        <Autocomplete
-          sx={{ width: '100%' }}
+        <ControlledAutoComplete
+          control={control}
+          label="Linguagem"
+          disabled={watch("versao_framework").value === ""}
+          name="tecnologia"
           options={[
-            { label: '18.0', id: 1 },
-            { label: '3.0', id: 1 },
+            { label: "Node", value: 1 },
+            { label: "Dart", value: 2 },
           ]}
-          renderInput={(params) => <TextField {...params} label="Versão" />}
+          required
+        />
+      </Grid2>
+      <Grid2 size={6}>
+        <ControlledAutoComplete
+          control={control}
+          label="Versão"
+          name="versao_linguagem"
+          disabled={watch("tecnologia").value === ""}
+          options={[
+            { label: "18.0", value: 1 },
+            { label: "3.0", value: 2 },
+          ]}
+          required
+        />
+      </Grid2>
+      <Grid2 size={12}>
+        <ControlledTextField
+          control={control}
+          label="Nome do Container"
+          name="container"
+          required
+          sx={{ width: "100%" }}
+          actionOnChange={handleChangeName}
         />
       </Grid2>
       <Grid2 size={4}>
-        <Button variant="contained" disableElevation sx={{width: '100%'}}>
+        <Button
+          variant="contained"
+          disableElevation
+          sx={{ width: "100%" }}
+          onClick={handleSubmitForm}
+        >
           Gerar Docker
         </Button>
       </Grid2>
