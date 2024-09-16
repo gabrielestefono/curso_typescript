@@ -203,8 +203,6 @@ Esperado 2 argumentos, mas obtido 1.
 
 O TypeScript está nos dizendo que esquecemos de passar um argumento para a função `greet`, e com razão. Até agora, só escrevemos JavaScript padrão, e ainda assim a verificação de tipos conseguiu encontrar problemas com nosso código. Obrigado, TypeScript!
 
-#### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### 
-
 ## Emitindo com Erros
 
 Uma coisa que você pode não ter notado no último exemplo foi que nosso arquivo `hello.js` mudou novamente. Se abrirmos esse arquivo, veremos que o conteúdo ainda parece basicamente o mesmo que o arquivo de entrada. Isso pode ser um pouco surpreendente, dado o fato de que o `tsc` relatou um erro sobre nosso código, mas isso se baseia em um dos valores centrais do TypeScript: muitas vezes, você saberá melhor do que o TypeScript.
