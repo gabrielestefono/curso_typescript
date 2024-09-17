@@ -1,17 +1,17 @@
-import MailIcon from "@mui/icons-material/Mail";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import { IconButton } from "@mui/material";
+import * as React from "react";
 import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
+import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import * as React from "react";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import MenuIcon from "@mui/icons-material/Menu";
+import { IconButton } from "@mui/material";
+import { styled } from "@mui/system";
 
 export default function OptionsDrawer() {
   const [open, setOpen] = React.useState(false);
@@ -20,18 +20,12 @@ export default function OptionsDrawer() {
     setOpen(newOpen);
   };
 
-  const notification = true;
-
   return (
-    <Box>
-      <IconButton onClick={toggleDrawer(true)}>
-        {notification ? (
-          <NotificationsIcon sx={{ color: "black" }} />
-        ) : (
-          <NotificationsNoneIcon sx={{ color: "black" }} />
-        )}
+    <StyledBox>
+      <IconButton onClick={toggleDrawer(true)} sx={{paddingLeft: '2rem'}}>
+        <MenuIcon />
       </IconButton>
-      <Drawer open={open} onClose={toggleDrawer(false)} anchor="right">
+      <StyledDrawer open={open} onClose={toggleDrawer(false)}>
         <Box sx={{ width: 250 }} onClick={toggleDrawer(false)}>
           <List>
             {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
@@ -59,7 +53,22 @@ export default function OptionsDrawer() {
             ))}
           </List>
         </Box>
-      </Drawer>
-    </Box>
+      </StyledDrawer>
+    </StyledBox>
   );
 }
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  height: '4rem',
+  display: 'flex',
+  alignItems: 'center',
+  [theme.breakpoints.up("md")]: {
+    display: "none",
+  },
+}));
+
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  [theme.breakpoints.up("md")]: {
+    display: "none",
+  },
+}));

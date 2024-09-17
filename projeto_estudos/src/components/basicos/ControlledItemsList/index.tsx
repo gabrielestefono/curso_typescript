@@ -10,6 +10,7 @@ import SendIcon from "@mui/icons-material/Send";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
+import { styled } from "@mui/material";
 
 export default function ControlledItemsList() {
   const [open, setOpen] = React.useState(true);
@@ -19,9 +20,8 @@ export default function ControlledItemsList() {
   };
 
   return (
-    <List
-      sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-      component="nav"
+    <StyledList
+      sx={{ width: "100%", maxWidth: 360, minWidth: 300, bgcolor: "background.paper" }}
       aria-labelledby="nested-list-subheader"
     >
       <ListItemButton>
@@ -53,6 +53,12 @@ export default function ControlledItemsList() {
           </ListItemButton>
         </List>
       </Collapse>
-    </List>
+    </StyledList>
   );
 }
+
+const StyledList = styled(List)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+}));

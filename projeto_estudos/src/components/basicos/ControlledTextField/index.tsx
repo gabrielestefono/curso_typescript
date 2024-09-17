@@ -1,14 +1,18 @@
 import { SxProps, TextField, Theme } from "@mui/material";
-import { ChangeEventHandler } from "react";
+import { ChangeEventHandler, ReactNode } from "react";
 import { Control, FieldValues, Path, useController } from "react-hook-form";
 
 interface ControlledTextFieldProps<CustomType extends FieldValues> {
   control: Control<CustomType>;
   name: Path<CustomType>;
   label: string;
+  placeholder?: string;
   sx?: SxProps<Theme>;
   required?: boolean;
   actionOnChange?: (nome: string) => void;
+  size?: "small" | "medium";
+  startAdornment?: ReactNode;
+  endAdornment?: ReactNode;
 }
 
 export default function ControlledTextField<CustomType extends FieldValues>({
@@ -18,6 +22,10 @@ export default function ControlledTextField<CustomType extends FieldValues>({
   sx,
   required = false,
   actionOnChange,
+  size,
+  endAdornment,
+  startAdornment,
+  placeholder,
 }: Readonly<ControlledTextFieldProps<CustomType>>) {
   const { field } = useController({
     control: control,
@@ -36,14 +44,22 @@ export default function ControlledTextField<CustomType extends FieldValues>({
 
   return (
     <TextField
+      size={size}
       sx={sx}
       label={label}
       name={field.name}
       value={field.value}
+      placeholder={placeholder}
       onChange={handleChange}
       inputRef={field.ref}
       onBlur={field.onBlur}
       required={required}
+      slotProps={{
+        input: {
+          startAdornment: startAdornment,
+          endAdornment: endAdornment,
+        },
+      }}
     />
   );
 }

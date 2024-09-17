@@ -3,12 +3,14 @@ import { styled } from "@mui/material/styles";
 import AccountMenu from "./AccountMenu";
 import NotificationMenu from "./NotificationMenu";
 import SearchMenu from "./SearchMenu";
+import OptionsDrawer from "./OptionsDrawer";
 
 export default function Header() {
   return (
     <StyledBox>
       <Box>
-        <StyledTitle variant="h4">WeBest</StyledTitle>
+        <StyledTitle>WeBest</StyledTitle>
+        <OptionsDrawer />
       </Box>
       <StyledStack>
         <SearchMenu />
@@ -30,15 +32,22 @@ const StyledBox = styled(Box)(() => ({
   boxSizing: "border-box",
 }));
 
-const StyledStack = styled(Stack)(() => ({
+const StyledStack = styled(Stack)(({ theme }) => ({
   alignItems: "center",
   display: "flex",
-  gap: "20px",
+  gap: "10px",
   flexDirection: "row",
+  paddingInline: '2rem',
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
 }));
 
 const StyledTitle = styled(Typography)(({ theme }) => ({
-  [theme.breakpoints.down("sm")]: {
+  paddingInline: '1.5rem',
+  fontSize: '1.25rem',
+  lineHeight: '4rem',
+  [theme.breakpoints.down("md")]: {
     display: "none",
   },
 }));
