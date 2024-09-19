@@ -39,7 +39,7 @@ export default function ControlledTextField<CustomType extends FieldValues>({
     HTMLInputElement | HTMLTextAreaElement
   > = (event) => {
     field.onChange(event);
-    actionOnChange?.(event.target.value);
+    actionOnChange?.(String(event));
   };
 
   return (
