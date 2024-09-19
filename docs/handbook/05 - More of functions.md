@@ -1,10 +1,10 @@
-# More on Functions
+# Mais sobre Funções
 
-Functions are the basic building block of any application, whether they’re local functions, imported from another module, or methods on a class. They’re also values, and just like other values, TypeScript has many ways to describe how functions can be called. Let’s learn about how to write types that describe functions.
+Funções são o bloco básico de construção de qualquer aplicação, seja funções locais, importadas de outro módulo, ou métodos de uma classe. Elas também são valores e, assim como outros valores, o TypeScript possui várias maneiras de descrever como as funções podem ser chamadas. Vamos aprender como escrever tipos que descrevem funções.
 
-## Function Type Expressions
+## Expressões de Tipo de Função
 
-The simplest way to describe a function is with a *function type expression*. These types are syntactically similar to arrow functions:
+A maneira mais simples de descrever uma função é com uma *expressão de tipo de função*. Esses tipos são sintaticamente semelhantes às funções de seta:
 
 ```ts
 function greeter(fn: (a: string) => void) {
@@ -18,12 +18,11 @@ function printToConsole(s: string) {
 greeter(printToConsole);
 ```
 
-The syntax `(a: string) => void` means “a function with one parameter, named `a`, of type `string`, that doesn’t have a return value”. Just like with function declarations, if a parameter type isn’t specified, it’s implicitly `any`.
+A sintaxe `(a: string) => void` significa “uma função com um parâmetro, chamado `a`, do tipo `string`, que não tem um valor de retorno”. Assim como nas declarações de função, se um tipo de parâmetro não for especificado, ele é implicitamente `any`.
 
+> Note que o nome do parâmetro é obrigatório. O tipo de função `(string) => void` significa “uma função com um parâmetro chamado `string` do tipo `any`”!
 
-> Note that the parameter name is required. The function type (string) => void means “a function with a parameter named string of type any“!
-
-Of course, we can use a type alias to name a function type:
+Claro, podemos usar um alias de tipo para nomear um tipo de função:
 
 ```ts
 type GreetFunction = (a: string) => void;
@@ -32,9 +31,9 @@ function greeter(fn: GreetFunction) {
 }
 ```
 
-## Call Signatures
+## Assinaturas de Chamada
 
-In JavaScript, functions can have properties in addition to being callable. However, the function type expression syntax doesn’t allow for declaring properties. If we want to describe something callable with properties, we can write a *call signature* in an object type:
+No JavaScript, as funções podem ter propriedades além de serem chamáveis. No entanto, a sintaxe de expressão de tipo de função não permite declarar propriedades. Se quisermos descrever algo chamável com propriedades, podemos escrever uma *assinatura de chamada* em um tipo de objeto:
 
 ```ts
 type DescribableFunction = {
@@ -53,12 +52,11 @@ myFunc.description = "default description";
 doSomething(myFunc);
 ```
 
-Note that the syntax is slightly different compared to a function type expression - use `:` between the parameter list and the return type rather than `=>`.
+Note que a sintaxe é ligeiramente diferente em comparação com uma expressão de tipo de função - use `:` entre a lista de parâmetros e o tipo de retorno em vez de `=>`.
 
+## Assinaturas de Construção
 
-## Construct Signatures
-
-JavaScript functions can also be invoked with the `new` operator. TypeScript refers to these as *constructors* because they usually create a new object. You can write a *construct signature* by adding the `new` keyword in front of a call signature:
+As funções do JavaScript também podem ser invocadas com o operador `new`. O TypeScript se refere a elas como *construtores* porque geralmente criam um novo objeto. Você pode escrever uma *assinatura de construção* adicionando a palavra-chave `new` na frente de uma assinatura de chamada:
 
 ```ts
 type SomeConstructor = {
@@ -69,7 +67,7 @@ function fn(ctor: SomeConstructor) {
 }
 ```
 
-Some objects, like JavaScript’s `Date` object, can be called with or without `new`. You can combine call and construct signatures in the same type arbitrarily:
+Alguns objetos, como o objeto `Date` do JavaScript, podem ser chamados com ou sem `new`. Você pode combinar assinaturas de chamada e construção no mesmo tipo de forma arbitrária:
 
 ```ts
 interface CallOrConstruct {
@@ -78,10 +76,9 @@ interface CallOrConstruct {
 }
 ```
 
-## Generic Functions
+## Funções Genéricas
 
-It’s common to write a function where the types of the input relate to the type of the output, or where the types of two inputs are related in some way. Let’s consider for a moment a function that returns the first element of an array:
-
+É comum escrever uma função onde os tipos da entrada estão relacionados ao tipo da saída, ou onde os tipos de duas entradas estão relacionados de alguma forma. Vamos considerar por um momento uma função que retorna o primeiro elemento de um array:
 
 ```ts
 function firstElement(arr: any[]) {
@@ -89,10 +86,9 @@ function firstElement(arr: any[]) {
 }
 ```
 
-This function does its job, but unfortunately has the return type `any`. It’d be better if the function returned the type of the array element.
+Essa função faz seu trabalho, mas, infelizmente, tem o tipo de retorno `any`. Seria melhor se a função retornasse o tipo do elemento do array.
 
-In TypeScript, *generics* are used when we want to describe a correspondence between two values. We do this by declaring a type parameter in the function signature:
-
+No TypeScript, *genéricos* são usados quando queremos descrever uma correspondência entre dois valores. Fazemos isso declarando um parâmetro de tipo na assinatura da função:
 
 ```ts
 function firstElement<Type>(arr: Type[]): Type | undefined {
@@ -100,15 +96,14 @@ function firstElement<Type>(arr: Type[]): Type | undefined {
 }
 ```
 
-By adding a *type parameter* `Type` to this function and using it in two places, we’ve created a link between the input of the function (the array) and the output (the return value). Now when we call it, a more specific type comes out:
-
+Ao adicionar um *parâmetro de tipo* `Type` a essa função e usá-lo em dois lugares, criamos um vínculo entre a entrada da função (o array) e a saída (o valor de retorno). Agora, quando a chamamos, um tipo mais específico é retornado:
 
 ```ts
-// s is of type 'string'
+// s é do tipo 'string'
 const s = firstElement(["a", "b", "c"]);
-// n is of type 'number'
+// n é do tipo 'number'
 const n = firstElement([1, 2, 3]);
-// u is of type undefined
+// u é do tipo undefined
 const u = firstElement([]);
 ```
 

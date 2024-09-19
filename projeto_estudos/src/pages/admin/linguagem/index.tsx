@@ -1,10 +1,10 @@
-import DataGridDemo from "@/components/basicos/DataGrid";
+import BasicTable from "@/components/basicos/BasicTable";
 import Layout from "@/layout";
 
 export default function Linguagem() {
   return (
     <Layout>
-      <DataGridDemo/>
+      <BasicTable />
     </Layout>
   );
 }
