@@ -127,3 +127,131 @@ Here we used a [destructuring pattern](https://developer.mozilla.org/en-US/docs/
 > In an object destructuring pattern, `shape`: `Shape` means “grab the property `shape` and redefine it locally as a variable named `Shape`.” Likewise `xPos`: `number` creates a variable named `number` whose value is based on the parameter’s `xPos`.
 
 ### `readonly` Properties
+
+Properties can also be marked as `readonly` for TypeScript. While it won’t change any behavior at runtime, a property marked as `readonly` can’t be written to during type-checking.
+
+```ts
+interface SomeType {
+  readonly prop: string;
+}
+ 
+function doSomething(obj: SomeType) {
+  // We can read from 'obj.prop'.
+  console.log(`prop has the value '${obj.prop}'.`);
+ 
+  // But we can't re-assign it.
+  obj.prop = "hello";
+Cannot assign to 'prop' because it is a read-only property.
+}
+```
+
+Using the `readonly` modifier doesn’t necessarily imply that a value is totally immutable - or in other words, that its internal contents can’t be changed. It just means the property itself can’t be re-written to.
+
+```ts
+interface Home {
+  readonly resident: { name: string; age: number };
+}
+ 
+function visitForBirthday(home: Home) {
+  // We can read and update properties from 'home.resident'.
+  console.log(`Happy birthday ${home.resident.name}!`);
+  home.resident.age++;
+}
+ 
+function evict(home: Home) {
+  // But we can't write to the 'resident' property itself on a 'Home'.
+  home.resident = {
+Cannot assign to 'resident' because it is a read-only property.
+    name: "Victor the Evictor",
+    age: 42,
+  };
+}
+```
+
+It’s important to manage expectations of what `readonly` implies. It’s useful to signal intent during development time for TypeScript on how an object should be used. TypeScript doesn’t factor in whether properties on two types are `readonly` when checking whether those types are compatible, so `readonly` properties can also change via aliasing.
+
+```ts
+interface Person {
+  name: string;
+  age: number;
+}
+ 
+interface ReadonlyPerson {
+  readonly name: string;
+  readonly age: number;
+}
+ 
+let writablePerson: Person = {
+  name: "Person McPersonface",
+  age: 42,
+};
+ 
+// works
+let readonlyPerson: ReadonlyPerson = writablePerson;
+ 
+console.log(readonlyPerson.age); // prints '42'
+writablePerson.age++;
+console.log(readonlyPerson.age); // prints '43'
+```
+
+Using [mapping modifiers](https://www.typescriptlang.org/docs/handbook/2/mapped-types.html#mapping-modifiers), you can remove `readonly` attributes.
+
+### Index Signatures
+
+Sometimes you don’t know all the names of a type’s properties ahead of time, but you do know the shape of the values.
+
+In those cases you can use an index signature to describe the types of possible values, for example:
+
+```ts
+interface StringArray {
+  [index: number]: string;
+}
+ 
+const myArray: StringArray = getStringArray();
+const secondItem = myArray[1];
+          
+const secondItem: string
+```
+
+Above, we have a `StringArray` interface which has an index signature. This index signature states that when a `StringArray` is indexed with a `number`, it will return a `string`.
+
+Only some types are allowed for index signature properties: `string`, `number`, `symbol`, template string patterns, and union types consisting only of these.
+
+It is possible to support multiple types of indexers...
+While string index signatures are a powerful way to describe the “dictionary” pattern, they also enforce that all properties match their return type. This is because a string index declares that `obj.property` is also available as `obj["property"]`. In the following example, `name`’s type does not match the string index’s type, and the type checker gives an error:
+
+```ts
+interface NumberDictionary {
+  [index: string]: number;
+ 
+  length: number; // ok
+  name: string;
+Property 'name' of type 'string' is not assignable to 'string' index type 'number'.
+}
+```
+
+However, properties of different types are acceptable if the index signature is a union of the property types:
+
+```ts
+interface NumberOrStringDictionary {
+  [index: string]: number | string;
+  length: number; // ok, length is a number
+  name: string; // ok, name is a string
+}
+```
+
+Finally, you can make index signatures `readonly` in order to prevent assignment to their indices:
+
+```ts
+interface ReadonlyStringArray {
+  readonly [index: number]: string;
+}
+ 
+let myArray: ReadonlyStringArray = getReadOnlyStringArray();
+myArray[2] = "Mallory";
+Index signature in type 'ReadonlyStringArray' only permits reading.
+```
+
+You can’t set `myArray[2]` because the index signature is `readonly`.
+
+## Excess Property Checks
