@@ -1,47 +1,35 @@
 import BasicTable from "@/components/basicos/BasicTable";
 import Layout from "@/layout";
 
-type Teste = "Nome" | "Sobrenome" | "Linguagem" | "Profissão"
+interface LinguagemModel {
+  id: number;
+  nome: string;
+}
 
 export default function Linguagem() {
   return (
     <Layout>
-      <BasicTable<Teste>
-        columns={[
-          "Nome",
-          "Sobrenome",
-          "Linguagem",
-          "Profissão"
-        ]}
+      <BasicTable<LinguagemModel>
+        columns={{
+          nome: "Linguagem",
+        }}
         rows={[
           {
             id: 1,
-            Nome: "Teste1",
-            Sobrenome: "Bão",
-            Linguagem: "Dart",
-            Profissão: "Dev Frontend"
+            nome: "Dart",
           },
           {
             id: 2,
-            Nome: "Teste2",
-            Sobrenome: "Bão",
-            Linguagem: "Dart",
-            Profissão: "Dev Frontend"
+            nome: "Node",
           },
           {
             id: 3,
-            Nome: "Teste3",
-            Sobrenome: "Bão",
-            Linguagem: "Dart",
-            Profissão: "Dev Frontend"
+            nome: "PHP",
           },
           {
             id: 4,
-            Nome: "Teste4",
-            Sobrenome: "Bão",
-            Linguagem: "Dart",
-            Profissão: "Dev Frontend"
-          },
+            nome: "Java",
+          }
         ]}
       />
     </Layout>
