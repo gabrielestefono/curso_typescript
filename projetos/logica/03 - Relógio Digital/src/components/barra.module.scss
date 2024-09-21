@@ -1,0 +1,53 @@
+.barra {
+  &.notSide {
+    display: flex;
+    justify-content: center;
+    .intermediario {
+      width: 100px;
+      height: 12.5px;
+      background-color: red;
+    }
+
+    .trianguloParaDireita {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-top: 6.25px solid transparent;
+      border-bottom: 6.25px solid transparent;
+      border-left: 6.25px solid red;
+    }
+
+    .trianguloParaEsquerda {
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-top: 6.25px solid transparent;
+      border-bottom: 6.25px solid transparent;
+      border-right: 6.25px solid red;
+    }
+  }
+
+  &.side {
+    .intermediario {
+      width: 12.5px;
+      height: 100px;
+      background-color: red;
+    }
+
+    .trianguloParaDireita {
+      width: 0;
+      height: 0;
+      border-left: 6.25px solid transparent;
+      border-right: 6.25px solid transparent;
+      border-top: 6.25px solid red;
+    }
+
+    .trianguloParaEsquerda {
+      width: 0;
+      height: 0;
+      border-left: 6.25px solid transparent;
+      border-right: 6.25px solid transparent;
+      border-bottom: 6.25px solid red;
+    }
+  }
+}
