@@ -7,7 +7,7 @@ Projetos a serem realizados:
 ### 01 - Básico
 
 1. **Calculadora de IMC** (recebe peso e altura e retorna o IMC). ✅
-2. **Contador de Cliques** (conta quantas vezes um botão é clicado).
+2. **Contador de Cliques** (conta quantas vezes um botão é clicado). ✅
 3. **Relógio Digital** (exibe o horário atual em tempo real).
 4. **Verificador de Palíndromo** (verifica se uma palavra é palíndromo).
 5. **Jogo de Adivinhação** (o sistema gera um número aleatório e o usuário tenta adivinhar).
