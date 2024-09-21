@@ -255,3 +255,135 @@ Index signature in type 'ReadonlyStringArray' only permits reading.
 You can’t set `myArray[2]` because the index signature is `readonly`.
 
 ## Excess Property Checks
+
+Where and how an object is assigned a type can make a difference in the type system. One of the key examples of this is in excess property checking, which validates the object more thoroughly when it is created and assigned to an object type during creation.
+
+```ts
+interface SquareConfig {
+  color?: string;
+  width?: number;
+}
+ 
+function createSquare(config: SquareConfig): { color: string; area: number } {
+  return {
+    color: config.color || "red",
+    area: config.width ? config.width * config.width : 20,
+  };
+}
+ 
+let mySquare = createSquare({ colour: "red", width: 100 });
+Object literal may only specify known properties, but 'colour' does not exist in type 'SquareConfig'. Did you mean to write 'color'?
+```
+
+Notice the given argument to `createSquare` is spelled *colour* instead of `color`. In plain JavaScript, this sort of thing fails silently.
+
+You could argue that this program is correctly typed, since the `width` properties are compatible, there’s no `color` property present, and the extra `colour` property is insignificant.
+
+However, TypeScript takes the stance that there’s probably a bug in this code. Object literals get special treatment and undergo *excess property checking* when assigning them to other variables, or passing them as arguments. If an object literal has any properties that the “target type” doesn’t have, you’ll get an error:
+
+```ts
+let mySquare = createSquare({ colour: "red", width: 100 });
+Object literal may only specify known properties, but 'colour' does not exist in type 'SquareConfig'. Did you mean to write 'color'?
+```
+
+Getting around these checks is actually really simple. The easiest method is to just use a type assertion:
+
+```ts
+let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig);
+```
+
+However, a better approach might be to add a string index signature if you’re sure that the object can have some extra properties that are used in some special way. If `SquareConfig` can have `color` and `width` properties with the above types, but could *also* have any number of other properties, then we could define it like so:
+
+```ts
+interface SquareConfig {
+  color?: string;
+  width?: number;
+  [propName: string]: any;
+}
+```
+
+Here we’re saying that `SquareConfig` can have any number of properties, and as long as they aren’t `color` or `width`, their types don’t matter.
+
+One final way to get around these checks, which might be a bit surprising, is to assign the object to another variable: Since assigning `squareOptions` won’t undergo excess property checks, the compiler won’t give you an error:
+
+```ts
+let squareOptions = { colour: "red", width: 100 };
+let mySquare = createSquare(squareOptions);
+```
+
+The above workaround will work as long as you have a common property between squareOptions and SquareConfig. In this example, it was the property width. It will however, fail if the variable does not have any common object property. For example:
+
+```ts
+let squareOptions = { colour: "red" };
+let mySquare = createSquare(squareOptions);
+Type '{ colour: string; }' has no properties in common with type 'SquareConfig'.
+```
+
+Keep in mind that for simple code like above, you probably shouldn’t be trying to “get around” these checks. For more complex object literals that have methods and hold state, you might need to keep these techniques in mind, but a majority of excess property errors are actually bugs.
+
+That means if you’re running into excess property checking problems for something like option bags, you might need to revise some of your type declarations. In this instance, if it’s okay to pass an object with both a `color` or `colour` property to `createSquare`, you should fix up the definition of `SquareConfig` to reflect that.
+
+## Extending Types
+
+It’s pretty common to have types that might be more specific versions of other types. For example, we might have a `BasicAddress` type that describes the fields necessary for sending letters and packages in the U.S.
+
+```ts
+interface BasicAddress {
+  name?: string;
+  street: string;
+  city: string;
+  country: string;
+  postalCode: string;
+}
+```
+In some situations that’s enough, but addresses often have a unit number associated with them if the building at an address has multiple units. We can then describe an `AddressWithUnit`.
+
+```ts
+interface AddressWithUnit {
+  name?: string;
+  unit: string;
+  street: string;
+  city: string;
+  country: string;
+  postalCode: string;
+}
+```
+
+This does the job, but the downside here is that we had to repeat all the other fields from `BasicAddress` when our changes were purely additive. Instead, we can extend the original `BasicAddress` type and just add the new fields that are unique to `AddressWithUnit`.
+
+```ts
+interface BasicAddress {
+  name?: string;
+  street: string;
+  city: string;
+  country: string;
+  postalCode: string;
+}
+ 
+interface AddressWithUnit extends BasicAddress {
+  unit: string;
+}
+```
+
+The `extends` keyword on an `interface` allows us to effectively copy members from other named types, and add whatever new members we want. This can be useful for cutting down the amount of type declaration boilerplate we have to write, and for signaling intent that several different declarations of the same property might be related. For example, `AddressWithUnit` didn’t need to repeat the `street` property, and because `street` originates from `BasicAddress`, a reader will know that those two types are related in some way.
+
+`interfaces` can also extend from multiple types.
+
+```ts
+interface Colorful {
+  color: string;
+}
+ 
+interface Circle {
+  radius: number;
+}
+ 
+interface ColorfulCircle extends Colorful, Circle {}
+ 
+const cc: ColorfulCircle = {
+  color: "red",
+  radius: 42,
+};
+```
+
+## Intersection Types
