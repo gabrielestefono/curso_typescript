@@ -1,4 +1,3 @@
-# O Manual do TypeScript
 
 ## Sobre este Manual
 
@@ -42,9 +41,9 @@ Finalmente, o Manual não cobrirá como o TypeScript interage com outras ferrame
 
 Antes de começar com [Os Conceitos Básicos](https://www.typescriptlang.org/docs/handbook/2/basic-types.html), recomendamos ler uma das seguintes páginas introdutórias. Essas introduções têm o objetivo de destacar as principais semelhanças e diferenças entre o TypeScript e a sua linguagem de programação favorita, e esclarecer equívocos comuns específicos para essas linguagens.
 
-- TypeScript para o Novo Programador
-- TypeScript para Programadores JavaScript
-- TypeScript para Programadores Java/C#
-- TypeScript para Programadores Funcionais
+* TypeScript para o Novo Programador
+* TypeScript para Programadores JavaScript
+* TypeScript para Programadores Java/C#
+* TypeScript para Programadores Funcionais
 
 Caso contrário, vá para [Os Conceitos Básicos](https://www.typescriptlang.org/docs/handbook/2/basic-types.html).

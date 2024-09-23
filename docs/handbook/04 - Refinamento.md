@@ -54,14 +54,14 @@ Existem alguns construtos diferentes que o TypeScript entende para refinamento.
 
 Como vimos, o JavaScript suporta um operador `typeof` que pode fornecer informações básicas sobre o tipo dos valores que temos em tempo de execução. O TypeScript espera que isso retorne um conjunto específico de strings:
 
-- `"string"`
-- `"number"`
-- `"bigint"`
-- `"boolean"`
-- `"symbol"`
-- `"undefined"`
-- `"object"`
-- `"function"`
+* `"string"`
+* `"number"`
+* `"bigint"`
+* `"boolean"`
+* `"symbol"`
+* `"undefined"`
+* `"object"`
+* `"function"`
 
 Como vimos com `padLeft`, esse operador aparece com bastante frequência em várias bibliotecas JavaScript, e o TypeScript pode entendê-lo para refinar tipos em diferentes ramificações.
 
@@ -105,12 +105,12 @@ function getUsersOnlineMessage(numUsersOnline: number) {
 
 Em JavaScript, construções como `if` primeiro "coagem" suas condições para `booleanos` para compreendê-las e depois escolhem seus ramos dependendo se o resultado é `true` ou `false`. Valores como
 
-- `0`
-- `NaN`
-- `""` (a string vazia)
-- `0n` (a versão `bigint` de zero)
-- `null`
-- `undefined`
+* `0`
+* `NaN`
+* `""` (a string vazia)
+* `0n` (a versão `bigint` de zero)
+* `null`
+* `undefined`
 
 todos coagem para `false`, e outros valores são coacionados para `true`. Você sempre pode coagir valores para `booleanos` passando-os pela função `Boolean`, ou usando a negação dupla mais curta. (A última tem a vantagem de que o TypeScript infere um tipo literal booleano `true`, enquanto a primeira é inferida como tipo `boolean`.)
 

@@ -741,5 +741,5 @@ const f3 = function (): void {
 
 Para mais informações sobre `void`, consulte essas outras entradas de documentação:
 
-- [manual v2](https://www.typescriptlang.org/docs/handbook/2/functions.html#void)
-- [FAQ - “Por que funções que retornam não-void são atribuíveis a funções que retornam void?”](https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-functions-returning-non-void-assignable-to-function-returning-void)
+* [manual v2](https://www.typescriptlang.org/docs/handbook/2/functions.html#void)
+* [FAQ - “Por que funções que retornam não-void são atribuíveis a funções que retornam void?”](https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-functions-returning-non-void-assignable-to-function-returning-void)

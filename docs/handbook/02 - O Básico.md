@@ -16,10 +16,10 @@ Se analisarmos isso, a primeira linha executável de código acessa uma propried
 
 Mas assumindo que não sabemos o valor de `message` - e isso é bastante comum - não podemos afirmar de forma confiável quais resultados obteremos ao tentar executar qualquer um desses códigos. O comportamento de cada operação depende totalmente do valor que tínhamos em primeiro lugar.
 
-- `message` é chamável?
-- Ele tem uma propriedade chamada `toLowerCase`?
-- Se tiver, `toLowerCase` é chamável?
-- Se ambos esses valores são chamáveis, o que eles retornam?
+* `message` é chamável?
+* Ele tem uma propriedade chamada `toLowerCase`?
+* Se tiver, `toLowerCase` é chamável?
+* Se ambos esses valores são chamáveis, o que eles retornam?
 
 As respostas a essas perguntas são geralmente coisas que mantemos em mente ao escrever JavaScript, e temos que torcer para que tenhamos acertado todos os detalhes.
 
