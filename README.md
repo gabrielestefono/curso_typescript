@@ -10,7 +10,7 @@ Projetos a serem realizados:
 2. **Contador de Cliques** (conta quantas vezes um botão é clicado). ✅
 3. **Relógio Digital** (exibe o horário atual em tempo real). ✅
 4. **Verificador de Palíndromo** (verifica se uma palavra é palíndromo). ✅
-5. **Jogo de Adivinhação** (o sistema gera um número aleatório e o usuário tenta adivinhar).
+5. **Jogo de Adivinhação** (o sistema gera um número aleatório e o usuário tenta adivinhar). ✅
 6. **Conversor de Temperatura** (Celsius para Fahrenheit e vice-versa).
 7. **Conversor de Moedas** (converte valores entre diferentes moedas).
 8. **Lista de Tarefas** (criar, visualizar, editar e deletar tarefas).

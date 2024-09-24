@@ -1,0 +1,40 @@
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  img {
+    height: 5.5rem;
+    width: 5.5rem;
+    border-radius: 2.75rem;
+  }
+
+  h1 {
+    font-size: var(--text-preset-1-font-size);
+    font-family: var(--text-preset-1-font-family);
+    font-weight: var(--text-preset-1-font-weight);
+    line-height: var(--text-preset-1-line-height);
+    letter-spacing: var(--text-preset-1-letter-spacing);
+    color: var(--white);
+  }
+
+  h2 {
+    font-size: var(--text-preset-2-bold-font-size);
+    font-family: var(--text-preset-2-bold-font-family);
+    font-weight: var(--text-preset-2-bold-font-weight);
+    line-height: var(--text-preset-2-bold-line-height);
+    letter-spacing: var(--text-preset-2-bold-letter-spacing);
+    color: var(--green);
+  }
+
+  p {
+    font-size: var(--text-preset-2-font-size);
+    font-family: var(--text-preset-2-font-family);
+    font-weight: var(--text-preset-2-font-weight);
+    line-height: var(--text-preset-2-line-height);
+    letter-spacing: var(--text-preset-2-letter-spacing);
+    color: var(--white);
+  }
+}
