@@ -1,12 +1,21 @@
+import { MockedDataInfo } from "@/pages";
 import styles from "./Info.module.scss";
 
-export default function Info() {
+type InfoProps = MockedDataInfo;
+
+export default function Info({
+  alt_imagem,
+  endereco,
+  imagem,
+  nome,
+  profissao,
+}: Readonly<InfoProps>) {
   return (
     <div className={styles.info}>
-      <img src="/images/avatar-jessica.jpeg" alt="Jessica dev" />
-      <h1>Jessica Randall</h1>
-      <h2>London, United Kingdom</h2>
-      <p>"Front-end developer and avid reader."</p>
+      <img src={imagem} alt={alt_imagem} />
+      <h1>{nome}</h1>
+      <h2>{endereco}</h2>
+      <p>{profissao}</p>
     </div>
   );
 }

@@ -1,6 +1,21 @@
+import { MockedDataSocialItem } from "@/pages";
 import Button from "./Button";
 
-export default function GridButtons() {
+interface GridButtonsProps {
+  github: MockedDataSocialItem;
+  frontendMentor: MockedDataSocialItem;
+  linkedin: MockedDataSocialItem;
+  twitter: MockedDataSocialItem;
+  instagram: MockedDataSocialItem;
+}
+
+export default function GridButtons({
+  github,
+  frontendMentor,
+  linkedin,
+  twitter,
+  instagram,
+}: Readonly<GridButtonsProps>) {
   return (
     <div
       style={{
@@ -10,11 +25,11 @@ export default function GridButtons() {
         width: "100%",
       }}
     >
-      <Button text="GitHub" />
-      <Button text="Frontend Mentor" />
-      <Button text="LinkedIn" />
-      <Button text="Twitter" />
-      <Button text="Instagram" />
+      <Button text={github.redeSocial} link={github.link} />
+      <Button text={frontendMentor.redeSocial} link={frontendMentor.link} />
+      <Button text={linkedin.redeSocial} link={linkedin.link} />
+      <Button text={twitter.redeSocial} link={twitter.link} />
+      <Button text={instagram.redeSocial} link={instagram.link} />
     </div>
   );
 }
