@@ -11,7 +11,7 @@ Projetos a serem realizados:
 3. **Relógio Digital** (exibe o horário atual em tempo real). ✅
 4. **Verificador de Palíndromo** (verifica se uma palavra é palíndromo). ✅
 5. **Jogo de Adivinhação** (o sistema gera um número aleatório e o usuário tenta adivinhar). ✅
-6. **Conversor de Temperatura** (Celsius para Fahrenheit e vice-versa).
+6. **Conversor de Temperatura** (Celsius para Fahrenheit e vice-versa). ✅
 7. **Conversor de Moedas** (converte valores entre diferentes moedas).
 8. **Lista de Tarefas** (criar, visualizar, editar e deletar tarefas).
 9. **Validador de CPF** (verifica se um CPF é válido).
@@ -270,47 +270,79 @@ Projetos a serem realizados:
 50. **Plataforma de Publicação de Livros Digitais com Sistema de Royalties** (gestão de publicação e cálculo de royalties para autores).
 
 ## Projetos de Estudos
+### 1. **Verificação de Tipos Estática**
+- **Projeto 1:** Sistema de cálculo de folha de pagamento.
+  - **Detalhes:** Crie um sistema que permita calcular o salário de um funcionário com base nas horas trabalhadas. Para isso, a função deve garantir que os tipos passados sejam sempre `string` para o nome do funcionário, `number` para o salário por hora e `number` para as horas trabalhadas. Isso garante que se você passar algo que não seja o tipo correto, o TypeScript vai te alertar.
+  
+- **Projeto 2:** Calculadora de IMC.
+  - **Detalhes:** Crie um sistema que receba peso e altura, garantindo que sejam sempre `number`, e retorne o IMC. O objetivo aqui é testar a verificação de tipos, impedindo que valores como `string` sejam passados para essa função.
 
-## O Básico
+### 2. **Falhas Não Relacionadas a Exceções**
+- **Projeto 1:** Sistema de busca de usuários.
+  - **Detalhes:** Crie uma função que busca usuários em um sistema. Se o usuário não for encontrado, ela deve retornar `undefined` ou um valor padrão, sem lançar erro. O foco é lidar com a ausência de dados de forma controlada.
+  
+- **Projeto 2:** Função de busca de produtos.
+  - **Detalhes:** Implemente uma função que busca produtos em um catálogo. Se o produto não existir, em vez de lançar uma exceção, a função deve retornar um objeto vazio ou `undefined`, e você deve lidar com essa resposta de forma segura.
 
-1. **Verificação de Tipos Estática:**
-   - **Descrição:** Crie uma função que recebe um objeto representando um produto (nome, preço, em estoque) e retorna uma string formatada. Use verificação de tipos para garantir que o nome seja uma string, o preço seja um número e o estoque seja um booleano.
-   - **Objetivo:** Explorar como o TypeScript verifica os tipos estáticos e impede que valores incorretos sejam passados.
+### 3. **Tipos para Ferramentas**
+- **Projeto 1:** Ferramenta de validação de JSON.
+  - **Detalhes:** Crie uma ferramenta que recebe um objeto JSON e verifica se ele contém os campos obrigatórios (como nome, idade, etc.). Defina uma interface para o formato esperado e valide o JSON contra essa interface.
+  
+- **Projeto 2:** Gerador de relatórios.
+  - **Detalhes:** Desenvolva uma ferramenta que recebe uma lista de usuários com dados como nome e idade, e gera um relatório. Os tipos dos dados devem ser garantidos por interfaces TypeScript.
 
-2. **Falhas Não Relacionadas a Exceções:**
-   - **Descrição:** Crie um formulário de login com campos de nome de usuário e senha. Faça uma função que retorna um erro se qualquer um dos campos for deixado vazio. Teste como o TypeScript lida com erros sem exceções explícitas, apenas checando tipos.
-   - **Objetivo:** Entender como TypeScript pode prevenir erros com base na validação de tipos antes de exceções serem lançadas.
+### 4. **tsc, o Compilador TypeScript**
+- **Projeto 1:** Conversor de temperatura.
+  - **Detalhes:** Crie um projeto que recebe uma temperatura em Celsius e a converte para Fahrenheit. Compile esse projeto com o `tsc` para ver o JavaScript gerado. O objetivo é entender como o TypeScript é convertido para JavaScript.
+  
+- **Projeto 2:** Sistema de cadastro de alunos.
+  - **Detalhes:** Monte um pequeno sistema para cadastrar alunos, com nome e idade. Compile o projeto usando `tsc` e veja o processo de compilação. Experimente usar o `tsc --watch` para ver como ele compila automaticamente ao salvar mudanças.
 
-3. **Usando `tsc`, o Compilador TypeScript:**
-   - **Descrição:** Crie um projeto simples com um arquivo `.ts` que calcula a soma de dois números. Compile usando o comando `tsc` para gerar o arquivo `.js` correspondente.
-   - **Objetivo:** Familiarizar-se com a configuração e uso do `tsc` para compilar TypeScript para JavaScript.
+### 5. **Emitindo com Erros**
+- **Projeto 1:** Calculadora básica.
+  - **Detalhes:** Crie uma calculadora simples que realiza soma, subtração, multiplicação e divisão. Deliberadamente, introduza erros no código (como tipos incorretos) e veja como o `tsc` permite a compilação mesmo com erros, para entender a configuração de emitir com erros.
+  
+- **Projeto 2:** Validação de formulário.
+  - **Detalhes:** Desenvolva um formulário simples onde o usuário preenche nome e email. Se o campo não estiver preenchido corretamente, um erro de tipo será gerado. Depois, tente compilar o código com erros, usando as configurações do `tsc`.
 
-4. **Rigor com `strictNullChecks`:**
-   - **Descrição:** Crie uma função que aceita uma string e retorna seu comprimento. Ative a opção `strictNullChecks` no `tsconfig.json` e veja como o TypeScript força a verificação de valores nulos ou indefinidos.
-   - **Objetivo:** Testar o rigor que o `strictNullChecks` adiciona ao código, forçando a verificação de possíveis valores `null` ou `undefined`.
+### 6. **Tipos Explícitos**
+- **Projeto 1:** Gerenciamento de tarefas.
+  - **Detalhes:** Crie um sistema de tarefas onde cada tarefa tem um título, uma descrição e um status (completada ou não). Defina os tipos explicitamente para cada propriedade, assegurando que você não possa passar um valor errado.
+  
+- **Projeto 2:** Inventário de supermercado.
+  - **Detalhes:** Desenvolva um sistema de inventário para um supermercado, onde cada produto tem nome, preço e quantidade em estoque. Use tipos explícitos para cada campo, como `string` para nome, `number` para preço e quantidade.
 
-5. **Emitindo com Erros e `noImplicitAny`:**
-   - **Descrição:** Crie uma função que aceita um parâmetro, mas não define seu tipo explicitamente. Teste a configuração `noImplicitAny` no `tsconfig.json` e veja como o TypeScript trata a ausência de definição de tipo. Tente compilar com erros presentes, mas sem impedir a geração do código final.
-   - **Objetivo:** Compreender a função da configuração `noImplicitAny` e como o TypeScript pode emitir código mesmo quando há erros.
+### 7. **Tipos Apagados**
+- **Projeto 1:** Jogo de adivinhar número.
+  - **Detalhes:** Crie um jogo simples onde o usuário tenta adivinhar um número entre 1 e 100. O TypeScript vai garantir os tipos durante o desenvolvimento, mas esses tipos serão apagados no JavaScript final. O foco aqui é observar como os tipos são removidos na compilação para JS.
+  
+- **Projeto 2:** Gerador de IDs.
+  - **Detalhes:** Desenvolva uma função que gera IDs únicos para usuários. Durante o desenvolvimento, você vai definir tipos no TypeScript, mas verá que esses tipos não aparecem no JavaScript final.
 
-## Tipos do dia a dia
+### 8. **Redução de Versão**
+- **Projeto 1:** Sistema de reserva de hotel.
+  - **Detalhes:** Monte um sistema de reserva de quartos onde o TypeScript é configurado para gerar código JavaScript na versão ES5. O objetivo é testar a redução de versão e garantir compatibilidade com navegadores antigos.
+  
+- **Projeto 2:** Controle de estoque.
+  - **Detalhes:** Crie um sistema de controle de estoque onde você configura o TypeScript para gerar código JavaScript em uma versão anterior, como ES6. O foco é observar a saída gerada em diferentes versões.
 
-1. **Anotações de Tipo em Funções:**
-   - **Descrição:** Crie uma função que recebe dois números como parâmetros, realiza uma soma e retorna o resultado. Adicione anotações de tipos nos parâmetros e no retorno da função.
-   - **Objetivo:** Praticar as anotações de tipo de parâmetros e retorno em funções.
+### 9. **Rigor**
+- **Projeto 1:** Sistema de empréstimo de livros.
+  - **Detalhes:** Crie um sistema de biblioteca onde você pode emprestar livros a usuários. Ative as configurações de rigor (`strict: true`) para garantir que nenhum erro de tipo passe despercebido. Todos os tipos de parâmetros e retornos devem ser definidos corretamente.
+  
+- **Projeto 2:** Calculadora de média de notas.
+  - **Detalhes:** Desenvolva um sistema para calcular a média de notas de alunos, ativando o rigor máximo no TypeScript. Isso vai ajudar a identificar possíveis problemas de tipos, como entradas erradas ou tipos indefinidos.
 
-2. **Propriedades Opcionais em Objetos:**
-   - **Descrição:** Crie um objeto `Carro` com propriedades obrigatórias como `marca` e `modelo`, e uma propriedade opcional `anoDeFabricacao`. Verifique se o `anoDeFabricacao` foi fornecido antes de usá-lo.
-   - **Objetivo:** Entender o uso de propriedades opcionais dentro de objetos e como verificar sua existência.
+### 10. **noImplicitAny**
+- **Projeto 1:** Sistema de compras.
+  - **Detalhes:** Crie um sistema de carrinho de compras onde os produtos são adicionados ao carrinho e o valor total é calculado. Com `noImplicitAny` ativado, você deve sempre definir explicitamente os tipos dos parâmetros e retornos das funções.
+  
+- **Projeto 2:** API de eventos.
+  - **Detalhes:** Desenvolva uma API simples para gerenciar eventos (criar, editar, excluir eventos). Certifique-se de que `noImplicitAny` está ativado para que os tipos sejam sempre definidos explicitamente em todas as funções.
 
-3. **Tipos de União:**
-   - **Descrição:** Crie uma função que aceita uma string ou um número como parâmetro e retorna uma mensagem diferente dependendo do tipo do parâmetro recebido.
-   - **Objetivo:** Trabalhar com tipos de união e aprender a manipular diferentes tipos dentro de uma mesma função.
-
-4. **Enums e Arrays:**
-   - **Descrição:** Defina um `enum` com os dias da semana e crie um array que armazena os dias úteis. Use o `enum` para popular o array e exiba os valores.
-   - **Objetivo:** Compreender como utilizar `enums` e arrays em conjunto no TypeScript.
-
-5. **Aliases de Tipo e Funções Anônimas:**
-   - **Descrição:** Crie um alias de tipo para uma função que recebe um número e retorna uma string. Em seguida, defina uma função anônima usando esse alias de tipo.
-   - **Objetivo:** Aprender a utilizar aliases de tipo com funções e funções anônimas.
+### 11. **strictNullChecks**
+- **Projeto 1:** Agenda de contatos.
+  - **Detalhes:** Crie uma agenda de contatos onde você pode adicionar e remover contatos. Use `strictNullChecks` para garantir que você está lidando corretamente com valores `null` e `undefined`, evitando erros de acesso a valores inexistentes.
+  
+- **Projeto 2:** Sistema de agendamento.
+  - **Detalhes:** Desenvolva um sistema de agendamento de compromissos, garantindo que todos os dados de entrada sejam validados para não serem `null` ou `undefined`. O foco aqui é impedir erros relacionados a valores indefinidos ou nulos.
