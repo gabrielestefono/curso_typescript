@@ -12,7 +12,7 @@ Projetos a serem realizados:
 4. **Verificador de Palíndromo** (verifica se uma palavra é palíndromo). ✅
 5. **Jogo de Adivinhação** (o sistema gera um número aleatório e o usuário tenta adivinhar). ✅
 6. **Conversor de Temperatura** (Celsius para Fahrenheit e vice-versa). ✅
-7. **Conversor de Moedas** (converte valores entre diferentes moedas).
+7. **Conversor de Moedas** (converte valores entre diferentes moedas). ✅
 8. **Lista de Tarefas** (criar, visualizar, editar e deletar tarefas).
 9. **Validador de CPF** (verifica se um CPF é válido).
 10. **Gerador de Senhas Aleatórias**.
