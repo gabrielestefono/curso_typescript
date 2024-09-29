@@ -13,9 +13,9 @@ Projetos a serem realizados:
 5. **Jogo de Adivinhação** (o sistema gera um número aleatório e o usuário tenta adivinhar). ✅
 6. **Conversor de Temperatura** (Celsius para Fahrenheit e vice-versa). ✅
 7. **Conversor de Moedas** (converte valores entre diferentes moedas). ✅
-8. **Lista de Tarefas** (criar, visualizar, editar e deletar tarefas).
+8. **Gerador de Senhas Aleatórias**.
 9. **Validador de CPF** (verifica se um CPF é válido).
-10. **Gerador de Senhas Aleatórias**.
+10. **Lista de Tarefas** (criar, visualizar, editar e deletar tarefas).
 11. **Contador de Caracteres** (exibe a quantidade de caracteres digitados).
 12. **Semáforo com Temporizador** (simular o funcionamento de um semáforo).
 13. **Simulador de Lançamento de Dados** (gera um número aleatório de 1 a 6).

@@ -1,13 +1,14 @@
-export default function Header() {
+import styles from "./Header.module.scss";
+
+interface HeaderProps {
+  header: Header;
+}
+
+export default function Header({ header }: Readonly<HeaderProps>) {
+  const { alt, image } = header;
   return (
-    <header>
-      <div>
-        <img
-          src="/images/image-omelette.jpeg"
-          alt=""
-          style={{ width: "100%", height: "300px", maxHeight: "26vh" }}
-        />
-      </div>
+    <header className={styles.header}>
+      <img src={image} alt={alt} />
     </header>
   );
 }

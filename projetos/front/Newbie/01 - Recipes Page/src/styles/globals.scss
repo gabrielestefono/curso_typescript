@@ -1,7 +1,13 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
-*/
+@mixin Tablet() {
+	@media screen and (min-width: 768px) {
+		@content;
+	}
+}
+
+  :root{
+	--color-stone-100: #F3E5D7;
+	--color-white: #FFFFFF;
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -30,6 +36,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+	background-color: var(--color-stone-100);
 }
 ol, ul {
 	list-style: none;
@@ -45,4 +52,27 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+main{
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	align-items: center;
+	justify-content: center;
+
+	@include Tablet(){
+		margin-top: 8rem;
+	}
+
+	> div{
+		background-color: var(--color-white);
+		width: 100%;
+		
+		@include Tablet(){
+			padding: 40px;
+			border-radius: 1.5rem;
+			width: fit-content;
+		}
+	}
 }
