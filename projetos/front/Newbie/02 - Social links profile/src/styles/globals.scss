@@ -53,14 +53,17 @@ table {
 @font-face {
     font-family: 'inter-bold';
     src: url('../../public/fonts/static/Inter-Bold.ttf') format('truetype');
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'inter-regular';
     src: url('../../public/fonts/static/Inter-Regular.ttf') format('truetype');
+    font-display: swap;
 }
 
 @font-face {
     font-family: 'inter-semibold';
     src: url('../../public/fonts/static/Inter-SemiBold.ttf') format('truetype');
+    font-display: swap;
 }
