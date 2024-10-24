@@ -1,14 +1,14 @@
 # Modules
 
-JavaScript has a long history of different ways to handle modularizing code. Having been around since 2012, TypeScript has implemented support for a lot of these formats, but over time the community and the JavaScript specification has converged on a format called ES Modules (or ES6 modules). You might know it as the import/export syntax.
+JavaScript has a long history of different ways to handle modularizing code. Having been around since 2012, TypeScript has implemented support for a lot of these formats, but over time the community and the JavaScript specification has converged on a format called ES Modules (or ES6 modules). You might know it as the `import/export` syntax.
 
 ES Modules was added to the JavaScript spec in 2015, and by 2020 had broad support in most web browsers and JavaScript runtimes.
 
-For focus, the handbook will cover both ES Modules and its popular pre-cursor CommonJS module.exports = syntax, and you can find information about the other module patterns in the reference section under Modules.
+For focus, the handbook will cover both ES Modules and its popular pre-cursor CommonJS `module.exports =` syntax, and you can find information about the other module patterns in the reference section under [Modules](https://www.typescriptlang.org/docs/handbook/modules/introduction.html).
 
 ## How JavaScript Modules are Defined
 
-In TypeScript, just as in ECMAScript 2015, any file containing a top-level import or export is considered a module.
+In TypeScript, just as in ECMAScript 2015, any file containing a top-level `import` or `export` is considered a module.
 
 Conversely, a file without any top-level import or export declarations is treated as a script whose contents are available in the global scope (and therefore to modules as well).
 
@@ -16,11 +16,11 @@ Modules are executed within their own scope, not in the global scope. This means
 
 ## Non-modules
 
-Before we start, it’s important to understand what TypeScript considers a module. The JavaScript specification declares that any JavaScript files without an import declaration, export, or top-level await should be considered a script and not a module.
+Before we start, it’s important to understand what TypeScript considers a module. The JavaScript specification declares that any JavaScript files without an `import` declaration, `export`, or top-level `await` should be considered a script and not a module.
 
-Inside a script file variables and types are declared to be in the shared global scope, and it’s assumed that you’ll either use the outFile compiler option to join multiple input files into one output file, or use multiple <script> tags in your HTML to load these files (in the correct order!).
+Inside a script file variables and types are declared to be in the shared global scope, and it’s assumed that you’ll either use the outFile compiler option to join multiple input files into one output file, or use multiple `<script>` tags in your HTML to load these files (in the correct order!).
 
-If you have a file that doesn’t currently have any imports or exports, but you want to be treated as a module, add the line:
+If you have a file that doesn’t currently have any `imports` or `exports`, but you want to be treated as a module, add the line:
 
 ```ts
 export {};
@@ -28,17 +28,17 @@ export {};
 
 which will change the file to be a module exporting nothing. This syntax works regardless of your module target.
 
-### Modules in TypeScript
+## Modules in TypeScript
 
 There are three main things to consider when writing module-based code in TypeScript:
 
-- Syntax: What syntax do I want to use to import and export things?
-- Module Resolution: What is the relationship between module names (or paths) and files on disk?
-- Module Output Target: What should my emitted JavaScript module look like?
+- **Syntax**: What syntax do I want to use to import and export things?
+- **Module Resolution**: What is the relationship between module names (or paths) and files on disk?
+- **Module Output Target**: What should my emitted JavaScript module look like?
 
 ### ES Module Syntax
 
-A file can declare a main export via export default:
+A file can declare a main export via `export default`:
 
 ```ts
 // @filename: hello.ts
@@ -54,7 +54,7 @@ import helloWorld from "./hello.js";
 helloWorld();
 ```
 
-In addition to the default export, you can have more than one export of variables and functions via the export by omitting default:
+In addition to the default export, you can have more than one export of variables and functions via the `export` by omitting default:
 
 ```ts
 // @filename: maths.ts
@@ -70,7 +70,7 @@ export function absolute(num: number) {
 }
 ```
 
-These can be used in another file via the import syntax:
+These can be used in another file via the `import` syntax:
 
 ```ts
 import { pi, phi, absolute } from "./maths.js";
@@ -83,7 +83,7 @@ const absPhi: number
 
 ### Additional Import Syntax
 
-An import can be renamed using a format like import {old as new}:
+An import can be renamed using a format like `import {old as new}`:
 
 ```ts
 import { pi as π } from "./maths.js";
@@ -94,7 +94,7 @@ console.log(π);
 import π
 ```
 
-You can mix and match the above syntax into a single import:
+You can mix and match the above syntax into a single `import`:
 
 ```ts
 // @filename: maths.ts
@@ -115,7 +115,7 @@ console.log(π);
 import π
 ```
 
-You can take all of the exported objects and put them into a single namespace using * as name:
+You can take all of the exported objects and put them into a single namespace using `* as name`:
 
 ```ts
 // @filename: app.ts
@@ -127,7 +127,7 @@ const positivePhi = math.absolute(math.phi);
 const positivePhi: number
 ```
 
-You can import a file and not include any variables into your current module via import "./file":
+You can import a file and not include any variables into your current module via `import "./file"`:
 
 ```ts
 // @filename: app.ts
@@ -136,9 +136,9 @@ import "./maths.js";
 console.log("3.14");
 ```
 
-In this case, the import does nothing. However, all of the code in maths.ts was evaluated, which could trigger side-effects which affect other objects.
+In this case, the `import` does nothing. However, all of the code in `maths.ts` was evaluated, which could trigger side-effects which affect other objects.
 
-### TypeScript Specific ES Module Syntax
+#### TypeScript Specific ES Module Syntax
 
 Types can be exported and imported using the same syntax as JavaScript values:
 
@@ -156,11 +156,11 @@ import { Cat, Dog } from "./animal.js";
 type Animals = Cat | Dog;
 ```
 
-TypeScript has extended the import syntax with two concepts for declaring an import of a type:
+TypeScript has extended the `import` syntax with two concepts for declaring an import of a type:
 
-#### import type
+##### import type
 
-Which is an import statement which can only import types:
+Which is an import statement which can *only* import types:
 
 ```ts
 // @filename: animal.ts
@@ -180,7 +180,7 @@ const name = createCatName();
 
 #### Inline type imports
 
-TypeScript 4.5 also allows for individual imports to be prefixed with type to indicate that the imported reference is a type:
+TypeScript 4.5 also allows for individual imports to be prefixed with **type** to indicate that the imported reference is a type:
 
 ```ts
 // @filename: app.ts
@@ -192,9 +192,9 @@ const name = createCatName();
 
 Together these allow a non-TypeScript transpiler like Babel, swc or esbuild to know what imports can be safely removed.
 
-#### ES Module Syntax with CommonJS Behavior
+## ES Module Syntax with CommonJS Behavior
 
-TypeScript has ES Module syntax which directly correlates to a CommonJS and AMD require. Imports using ES Module are for most cases the same as the require from those environments, but this syntax ensures you have a 1 to 1 match in your TypeScript file with the CommonJS output:
+TypeScript has ES Module syntax which directly correlates to a CommonJS and AMD `require`. Imports using ES Module are for most cases the same as the `require` from those environments, but this syntax ensures you have a 1 to 1 match in your TypeScript file with the CommonJS output:
 
 ```ts
 import fs = require("fs");
@@ -202,3 +202,8 @@ const code = fs.readFileSync("hello.ts", "utf8");
 ```
 
 You can learn more about this syntax in the [modules reference page](https://www.typescriptlang.org/docs/handbook/modules/introduction.html).
+
+## CommonJS Syntax
+
+CommonJS is the format which most modules on npm are delivered in. Even if you are writing using the ES Modules syntax above, having a brief understanding of how CommonJS syntax works will help you debug easier.
+
