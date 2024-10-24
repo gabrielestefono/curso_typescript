@@ -207,3 +207,118 @@ You can learn more about this syntax in the [modules reference page](https://www
 
 CommonJS is the format which most modules on npm are delivered in. Even if you are writing using the ES Modules syntax above, having a brief understanding of how CommonJS syntax works will help you debug easier.
 
+### Exporting
+
+Identifiers are exported via setting the `exports` property on a global called `module`.
+
+```ts
+function absolute(num: number) {
+  if (num < 0) return num * -1;
+  return num;
+}
+ 
+module.exports = {
+  pi: 3.14,
+  squareTwo: 1.41,
+  phi: 1.61,
+  absolute,
+};
+```
+
+Then these files can be imported via a `require` statement:
+
+```ts
+const maths = require("./maths");
+maths.pi;
+      
+any
+```
+
+Or you can simplify a bit using the destructuring feature in JavaScript:
+
+```ts
+const { squareTwo } = require("./maths");
+squareTwo;
+   
+const squareTwo: any
+```
+
+### CommonJS and ES Modules interop
+
+There is a mis-match in features between CommonJS and ES Modules regarding the distinction between a default import and a module namespace object import. TypeScript has a compiler flag to reduce the friction between the two different sets of constraints with [esModuleInterop](https://www.typescriptlang.org/tsconfig#esModuleInterop).
+
+### TypeScript’s Module Resolution Options
+
+Module resolution is the process of taking a string from the `import` or `require` statement, and determining what file that string refers to.
+
+TypeScript includes two resolution strategies: Classic and Node. Classic, the default when the compiler option [module](https://www.typescriptlang.org/tsconfig#module) is not `commonjs`, is included for backwards compatibility. The Node strategy replicates how Node.js works in CommonJS mode, with additional checks for `.ts` and `.d.ts`.
+
+There are many TSConfig flags which influence the module strategy within TypeScript: [moduleResolution](https://www.typescriptlang.org/tsconfig#moduleResolution), [baseUrl](https://www.typescriptlang.org/tsconfig#baseUrl), [paths](https://www.typescriptlang.org/tsconfig#paths), [rootDirs](https://www.typescriptlang.org/tsconfig#rootDirs).
+
+For the full details on how these strategies work, you can consult the [Module Resolution](https://www.typescriptlang.org/docs/handbook/modules/reference.html#the-moduleresolution-compiler-option) reference page.
+
+### TypeScript’s Module Output Options
+
+There are two options which affect the emitted JavaScript output:
+
+- [target](https://www.typescriptlang.org/tsconfig#target) which determines which JS features are downleveled (converted to run in older JavaScript runtimes) and which are left intact
+
+- [module](https://www.typescriptlang.org/tsconfig#module) which determines what code is used for modules to interact with each other
+
+Which [target](https://www.typescriptlang.org/tsconfig#target) you use is determined by the features available in the JavaScript runtime you expect to run the TypeScript code in. That could be: the oldest web browser you support, the lowest version of Node.js you expect to run on or could come from unique constraints from your runtime - like Electron for example.
+
+All communication between modules happens via a module loader, the compiler option [module](https://www.typescriptlang.org/tsconfig#module) determines which one is used. At runtime the module loader is responsible for locating and executing all dependencies of a module before executing it.
+
+For example, here is a TypeScript file using ES Modules syntax, showcasing a few different options for [module](https://www.typescriptlang.org/tsconfig#module):
+
+```ts
+import { valueOfPi } from "./constants.js";
+ 
+export const twoPi = valueOfPi * 2;
+```
+
+#### ES2020
+
+```ts
+import { valueOfPi } from "./constants.js";
+export const twoPi = valueOfPi * 2;
+```
+
+#### CommonJS
+
+```ts
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.twoPi = void 0;
+const constants_js_1 = require("./constants.js");
+exports.twoPi = constants_js_1.valueOfPi * 2;
+```
+
+#### UMD
+
+```ts
+(function (factory) {
+    if (typeof module === "object" && typeof module.exports === "object") {
+        var v = factory(require, exports);
+        if (v !== undefined) module.exports = v;
+    }
+    else if (typeof define === "function" && define.amd) {
+        define(["require", "exports", "./constants.js"], factory);
+    }
+})(function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    exports.twoPi = void 0;
+    const constants_js_1 = require("./constants.js");
+    exports.twoPi = constants_js_1.valueOfPi * 2;
+});
+```
+
+> Note that ES2020 is effectively the same as the original index.ts.
+
+You can see all of the available options and what their emitted JavaScript code looks like in the [TSConfig Reference for module](https://www.typescriptlang.org/tsconfig#module).
+
+#### TypeScript namespaces
+
+TypeScript has its own module format called `namespaces` which pre-dates the ES Modules standard. This syntax has a lot of useful features for creating complex definition files, and still sees active use [in DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped). While not deprecated, the majority of the features in namespaces exist in ES Modules and we recommend you use that to align with JavaScript’s direction. You can learn more about namespaces in [the namespaces reference page](https://www.typescriptlang.org/docs/handbook/namespaces.html).
+
