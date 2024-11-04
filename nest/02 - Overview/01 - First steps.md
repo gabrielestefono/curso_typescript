@@ -21,7 +21,7 @@ npm i -g @nestjs/cli
 nest new project-name
 ```
 
-> #### Hint
+> **Hint**
 >
 > To create a new project with TypeScript's [stricter](https://www.typescriptlang.org/tsconfig/#strict) feature set, pass the **_--strict_** flag to the **_nest new_** command.
 
@@ -60,7 +60,7 @@ To create a Nest application instance, we use the core **_NestFactory_** class. 
 
 Note that a project scaffolded with the Nest CLI creates an initial project structure that encourages developers to follow the convention of keeping each module in its own dedicated directory.
 
-> #### Hint
+> **Hint**
 > By default, if any error happens while creating the application your app will exit with the code **_1_**. If you want to make it throw an error instead disable the option **_abortOnError_** (e.g., **_NestFactory.create(AppModule, { abortOnError: false })_**).
 
 ## Platform
@@ -88,7 +88,7 @@ Once the installation process is complete, you can run the following command at 
 npm run start
 ```
 
-> #### Hint
+> **Hint**
 > To speed up the development process (x20 times faster builds), you can use the [SWC builder](https://docs.nestjs.com/recipes/swc) by passing the ***-b swc*** flag to the ***start*** script, as follows ***npm run start -- -b swc***.
 
 This command starts the app with the HTTP server listening on the port defined in the ***src/main.ts*** file. Once the application is running, open your browser and navigate to ***http://localhost:3000/***. You should see the ***Hello World!*** message.
